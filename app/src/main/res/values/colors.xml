@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="surface">#009ECE</color>
+    <color name="ball">#FF9E00</color>
+    <color name="black_hole"> #CE0000</color>
+    <color name="winning_hole">#9CCF31</color>
+    <color name="obstacle">#F7D708</color>
+</resources>

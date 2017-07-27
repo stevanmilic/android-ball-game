@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="ball_radius">50</integer>
+    <integer name="obstacle_width">30</integer>
+    <integer name="obstacle_height">150</integer>
+    <integer name="black_hole_radius">90</integer>
+    <integer name="winning_hole_radius">70</integer>
+    <integer name="no_obstacles">7</integer>
+    <integer name="no_black_holes">2</integer>
+</resources>

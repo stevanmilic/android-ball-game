@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">BallGame</string>
+    <string name="new_polygon">New Polygon</string>
+    <string name="statistics">Statistics</string>
+    <string name="settings">Settings</string>
+    <string name="draw_ball">Tap screen to draw ball starting position</string>
+    <string name="draw_obstacles">Tap screen to draw obstacles position</string>
+    <string name="draw_black_holes">Tap screen to draw black holes position</string>
+    <string name="draw_winning_hole">Tap screen to draw winning hole position</string>
+    <string name="save_polygon">Tap screen to save polygon</string>
+    <string name="obstacles_left">obstacles left!</string>
+    <string name="black_holes_left">black holes left!</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+</resources>
