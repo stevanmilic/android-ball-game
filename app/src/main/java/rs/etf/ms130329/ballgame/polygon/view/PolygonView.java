@@ -47,31 +47,43 @@ public class PolygonView extends View {
         polygon.setSurface(surface);
     }
 
-    public void drawBall(float x, float y) {
+    public boolean drawBall(float x, float y) {
         Ball ball = new Ball(getResources().getColor(R.color.ball), x, y, getResources().getInteger(R.integer
                 .ball_radius));
-        polygon.setBall(ball);
-        invalidate();
+        boolean isValidDraw = polygon.setBall(ball);
+        if(isValidDraw) {
+            invalidate();
+        }
+        return isValidDraw;
     }
 
-    public void drawObstacle(float x, float y) {
+    public boolean drawObstacle(float x, float y) {
         Obstacle obstacle = new Obstacle(getResources().getColor(R.color.obstacle), x, y,
                 getResources().getInteger(R.integer.obstacle_width), getResources().getInteger(R.integer.obstacle_height));
-        polygon.addObstacle(obstacle);
-        invalidate();
+        boolean isValidDraw = polygon.addObstacle(obstacle);
+        if(isValidDraw) {
+            invalidate();
+        }
+        return isValidDraw;
     }
 
-    public void drawBlackHole(float x, float y) {
+    public boolean drawBlackHole(float x, float y) {
         BlackHole blackHole = new BlackHole(getResources().getColor(R.color.black_hole), x, y,
                 getResources().getInteger(R.integer.black_hole_radius));
-        polygon.addBlackHole(blackHole);
-        invalidate();
+        boolean isValidDraw = polygon.addBlackHole(blackHole);
+        if(isValidDraw) {
+            invalidate();
+        }
+        return isValidDraw;
     }
 
-    public void drawWinningHole(float x, float y) {
+    public boolean drawWinningHole(float x, float y) {
         WinningHole winningHole = new WinningHole(getResources().getColor(R.color.winning_hole), x, y,
                 getResources().getInteger(R.integer.winning_hole_radius));
-        polygon.setWinningHole(winningHole);
-        invalidate();
+        boolean isValidDraw = polygon.setWinningHole(winningHole);
+        if(isValidDraw) {
+            invalidate();
+        }
+        return isValidDraw;
     }
 }

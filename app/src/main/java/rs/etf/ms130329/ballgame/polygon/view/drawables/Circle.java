@@ -13,7 +13,9 @@ public class Circle extends Figure {
 
     public Circle(int color, float x, float y, int radius) {
         super(color, x, y);
+
         this.radius = radius;
+        super.setBounds(x - radius, y - radius, x + radius, y + radius);
     }
 
     public int getRadius() {

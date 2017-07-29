@@ -1,10 +1,12 @@
 package rs.etf.ms130329.ballgame.polygon.view.drawables;
 
+import android.graphics.Rect;
+
 /**
  * Created by stevan on 7/27/17.
  */
 
-abstract class Figure extends ColoredDrawable {
+public abstract class Figure extends ExtendedDrawable {
 
     float x;
     float y;
@@ -22,4 +24,9 @@ abstract class Figure extends ColoredDrawable {
     public float getY() {
         return y;
     }
+
+    public boolean isIntersecting(Figure figure) {
+        return Rect.intersects(getBounds(), figure.getBounds());
+    }
+
 }

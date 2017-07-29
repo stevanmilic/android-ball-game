@@ -14,8 +14,10 @@ public class Rectangle extends Figure {
 
     public Rectangle(int color, float x, float y, float width, float height) {
         super(color, x, y);
+
         this.height = height;
         this.width = width;
+        super.setBounds(x, y, x + width, y + height);
     }
 
     public float getHeight() {

@@ -15,15 +15,16 @@ import java.util.List;
  * Created by stevan on 7/27/17.
  */
 
-public class Drawables extends Drawable {
-    private List<Drawable> drawables = new LinkedList<>();
+public class Drawables extends Drawable implements Serializable {
 
-    public void add(Drawable drawable) {
-        drawables.add(drawable);
+    protected List<ExtendedDrawable> drawables = new LinkedList<>();
+
+    protected boolean add(ExtendedDrawable drawable) {
+        return drawables.add(drawable);
     }
 
-    public void remove(Drawable drawable) {
-        drawables.remove(drawable);
+    protected boolean remove(ExtendedDrawable drawable) {
+        return drawables.remove(drawable);
     }
 
     @Override
