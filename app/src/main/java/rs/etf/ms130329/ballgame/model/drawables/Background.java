@@ -1,8 +1,7 @@
-package rs.etf.ms130329.ballgame.polygon.view.drawables;
+package rs.etf.ms130329.ballgame.model.drawables;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.support.annotation.NonNull;
 
 import java.io.IOException;
@@ -13,6 +12,8 @@ import java.io.ObjectInputStream;
  */
 
 public class Background extends ExtendedDrawable {
+
+    static final long serialVersionUID = 2L;
 
     transient private Bitmap bitmap;
     private int width, height;
@@ -40,6 +41,7 @@ public class Background extends ExtendedDrawable {
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
+        super.setBounds(0, 0, width, height);
         bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         bitmap.eraseColor(paint.getColor());
     }

@@ -1,4 +1,4 @@
-package rs.etf.ms130329.ballgame.polygon.view.drawables;
+package rs.etf.ms130329.ballgame.model.drawables;
 
 import android.graphics.Rect;
 
@@ -8,21 +8,15 @@ import android.graphics.Rect;
 
 public abstract class Figure extends ExtendedDrawable {
 
-    float x;
-    float y;
+    static final long serialVersionUID = 3L;
+
+    protected float x;
+    protected float y;
 
     Figure(int color, float x, float y) {
         super(color);
         this.x = x;
         this.y = y;
-    }
-
-    public float getX() {
-        return x;
-    }
-
-    public float getY() {
-        return y;
     }
 
     public boolean isIntersecting(Figure figure) {

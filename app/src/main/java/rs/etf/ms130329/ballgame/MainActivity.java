@@ -11,14 +11,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import rs.etf.ms130329.ballgame.game.controller.GameController;
 import rs.etf.ms130329.ballgame.polygon.controller.PolygonController;
 import rs.etf.ms130329.ballgame.polygon.model.PolygonModel;
-import rs.etf.ms130329.ballgame.polygon.view.objects.Polygon;
+import rs.etf.ms130329.ballgame.model.objects.Polygon;
 
 public class MainActivity extends Activity {
 
     PolygonModel polygonModel;
     ArrayAdapter<String> adapter;
+    public static final String PARAMETER_KEY = "polygon";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,9 @@ public class MainActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Polygon polygon = polygonModel.importPolygonFromFile(adapter.getItem(position));
+                Intent intent = new Intent(getApplicationContext(), GameController.class);
+                intent.putExtra(PARAMETER_KEY, polygon);
+                startActivity(intent);
             }
         });
     }

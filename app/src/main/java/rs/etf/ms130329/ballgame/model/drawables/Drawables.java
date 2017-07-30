@@ -1,4 +1,4 @@
-package rs.etf.ms130329.ballgame.polygon.view.drawables;
+package rs.etf.ms130329.ballgame.model.drawables;
 
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
@@ -16,6 +16,8 @@ import java.util.List;
  */
 
 public class Drawables extends Drawable implements Serializable {
+
+    static final long serialVersionUID = 6L;
 
     protected List<ExtendedDrawable> drawables = new LinkedList<>();
 

@@ -1,9 +1,8 @@
-package rs.etf.ms130329.ballgame.polygon.view.drawables;
+package rs.etf.ms130329.ballgame.model.drawables;
 
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
@@ -17,6 +16,9 @@ import java.io.Serializable;
  */
 
 public abstract class ExtendedDrawable extends Drawable implements Serializable{
+
+    static final long serialVersionUID = 1L;
+
     transient Paint paint;
     private int color;
 
@@ -27,7 +29,7 @@ public abstract class ExtendedDrawable extends Drawable implements Serializable{
     }
 
     @CallSuper
-    void setBounds(float left, float top, float right, float bottom) {
+    protected void setBounds(float left, float top, float right, float bottom) {
        super.setBounds((int)left, (int)top, (int)right, (int)bottom);
     }
 

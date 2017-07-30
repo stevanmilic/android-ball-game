@@ -1,16 +1,17 @@
 package rs.etf.ms130329.ballgame.polygon.view;
 
-import android.view.View;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.util.TypedValue;
+import android.view.View;
 
 import rs.etf.ms130329.ballgame.R;
-import rs.etf.ms130329.ballgame.polygon.view.objects.Ball;
-import rs.etf.ms130329.ballgame.polygon.view.objects.BlackHole;
-import rs.etf.ms130329.ballgame.polygon.view.objects.Obstacle;
-import rs.etf.ms130329.ballgame.polygon.view.objects.Polygon;
-import rs.etf.ms130329.ballgame.polygon.view.objects.Surface;
-import rs.etf.ms130329.ballgame.polygon.view.objects.WinningHole;
+import rs.etf.ms130329.ballgame.model.objects.Ball;
+import rs.etf.ms130329.ballgame.model.objects.BlackHole;
+import rs.etf.ms130329.ballgame.model.objects.Box;
+import rs.etf.ms130329.ballgame.model.objects.Obstacle;
+import rs.etf.ms130329.ballgame.model.objects.Polygon;
+import rs.etf.ms130329.ballgame.model.objects.WinningHole;
 
 
 /**
@@ -43,15 +44,14 @@ public class PolygonView extends View {
     }
 
     private void drawSurface(int width, int height) {
-        Surface surface = new Surface(getResources().getColor(R.color.surface), width, height);
-        polygon.setSurface(surface);
+        Box box = new Box(getResources().getColor(R.color.box), width, height);
+        polygon.setBox(box);
     }
 
     public boolean drawBall(float x, float y) {
-        Ball ball = new Ball(getResources().getColor(R.color.ball), x, y, getResources().getInteger(R.integer
-                .ball_radius));
+        Ball ball = new Ball(getResources().getColor(R.color.ball), x, y, getResources().getInteger(R.integer.ball_radius));
         boolean isValidDraw = polygon.setBall(ball);
-        if(isValidDraw) {
+        if (isValidDraw) {
             invalidate();
         }
         return isValidDraw;
@@ -61,7 +61,7 @@ public class PolygonView extends View {
         Obstacle obstacle = new Obstacle(getResources().getColor(R.color.obstacle), x, y,
                 getResources().getInteger(R.integer.obstacle_width), getResources().getInteger(R.integer.obstacle_height));
         boolean isValidDraw = polygon.addObstacle(obstacle);
-        if(isValidDraw) {
+        if (isValidDraw) {
             invalidate();
         }
         return isValidDraw;
@@ -71,7 +71,7 @@ public class PolygonView extends View {
         BlackHole blackHole = new BlackHole(getResources().getColor(R.color.black_hole), x, y,
                 getResources().getInteger(R.integer.black_hole_radius));
         boolean isValidDraw = polygon.addBlackHole(blackHole);
-        if(isValidDraw) {
+        if (isValidDraw) {
             invalidate();
         }
         return isValidDraw;
@@ -81,7 +81,7 @@ public class PolygonView extends View {
         WinningHole winningHole = new WinningHole(getResources().getColor(R.color.winning_hole), x, y,
                 getResources().getInteger(R.integer.winning_hole_radius));
         boolean isValidDraw = polygon.setWinningHole(winningHole);
-        if(isValidDraw) {
+        if (isValidDraw) {
             invalidate();
         }
         return isValidDraw;

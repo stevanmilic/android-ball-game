@@ -1,11 +1,11 @@
-package rs.etf.ms130329.ballgame.polygon.view.objects;
+package rs.etf.ms130329.ballgame.model.objects;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import rs.etf.ms130329.ballgame.polygon.view.drawables.Drawables;
-import rs.etf.ms130329.ballgame.polygon.view.drawables.ExtendedDrawable;
-import rs.etf.ms130329.ballgame.polygon.view.drawables.Figure;
+import rs.etf.ms130329.ballgame.model.drawables.Drawables;
+import rs.etf.ms130329.ballgame.model.drawables.ExtendedDrawable;
+import rs.etf.ms130329.ballgame.model.drawables.Figure;
 
 /**
  * Created by stevan on 7/27/17.
@@ -13,7 +13,9 @@ import rs.etf.ms130329.ballgame.polygon.view.drawables.Figure;
 
 public class Polygon extends Drawables {
 
-    private Surface surface;
+    static final long serialVersionUID = 10L;
+
+    private Box box;
     private Ball ball;
     private List<Obstacle> obstacles = new LinkedList<>();
     private List<BlackHole> blackHoles = new LinkedList<>();
@@ -71,17 +73,17 @@ public class Polygon extends Drawables {
         return true;
     }
 
-    public Surface getSurface() {
-        return surface;
+    public Box getBox() {
+        return box;
     }
 
-    public void setSurface(Surface surface) {
-        this.surface = surface;
-        super.add(surface);
+    public void setBox(Box box) {
+        this.box = box;
+        super.add(box);
     }
 
     private boolean isPositionValid(Figure newFigure) {
-        if (surface == null || !surface.inBounds(newFigure)) {
+        if (box == null || !box.inBounds(newFigure)) {
             return false;
         }
         for (ExtendedDrawable drawable : drawables) {

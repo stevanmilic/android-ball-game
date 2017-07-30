@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="friction_factor" format="float" type="dimen">0.1</item>
+    <item name="collision_factor" format="float" type="dimen">1</item>
+</resources>

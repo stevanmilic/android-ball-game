@@ -3,23 +3,16 @@ package rs.etf.ms130329.ballgame.polygon.model;
 import android.content.Context;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OptionalDataException;
-import java.io.StreamCorruptedException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import rs.etf.ms130329.ballgame.polygon.view.objects.Polygon;
+import rs.etf.ms130329.ballgame.model.objects.Polygon;
 
 /**
  * Created by stevan on 7/28/17.
