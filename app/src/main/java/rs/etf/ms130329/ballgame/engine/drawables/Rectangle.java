@@ -37,11 +37,12 @@ public class Rectangle extends Figure {
 
     @Override
     public void draw(@NonNull Canvas canvas) {
-        canvas.drawRect(x, y, x + width, y + height, paint);
+        canvas.drawRect(point.getPointX(), point.getPointY(), point.getPointX() + width, point.getPointY() + height,
+                paint);
     }
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
-        super.setBounds(x, y, x + width, y + height);
+        super.setBounds(point.getPointX(), point.getPointY(), point.getPointX() + width, point.getPointY() + height);
     }
 }

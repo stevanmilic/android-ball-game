@@ -21,6 +21,9 @@ public class Polygon extends Drawables {
     private List<BlackHole> blackHoles = new LinkedList<>();
     private WinningHole winningHole;
 
+    private float frictionFactor;
+    private float collisionFactor;
+
     public Ball getBall() {
         return ball;
     }
@@ -80,6 +83,22 @@ public class Polygon extends Drawables {
     public void setBox(Box box) {
         this.box = box;
         super.add(box);
+    }
+
+    public float getFrictionFactor() {
+        return frictionFactor;
+    }
+
+    public void setFrictionFactor(float frictionFactor) {
+        this.frictionFactor = frictionFactor;
+    }
+
+    public float getCollisionFactor() {
+        return collisionFactor;
+    }
+
+    public void setCollisionFactor(float collisionFactor) {
+        this.collisionFactor = collisionFactor;
     }
 
     private boolean isPositionValid(Figure newFigure) {

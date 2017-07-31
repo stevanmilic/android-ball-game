@@ -27,6 +27,8 @@ public class GameController extends Activity implements SensorEventListener {
 
     private WindowManager windowManager;
 
+    private static final float FRAME_RATE = 0.333f;
+
     private static final String TAG = "GameController";
 
     @Override
@@ -45,7 +47,10 @@ public class GameController extends Activity implements SensorEventListener {
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
 
         Polygon polygon = (Polygon) extras.get(MainActivity.PARAMETER_KEY);
+
         gameView = new GameView(this, polygon);
+        gameModel = new GameModel(this, polygon);
+
         setContentView(gameView);
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -65,7 +70,7 @@ public class GameController extends Activity implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent event) {
         float[] sensorAcceleration = adjustAccelerationOrientation(windowManager.getDefaultDisplay().getRotation(), event.values);
-        gameView.update(sensorAcceleration, 0.333f);
+        gameView.update(sensorAcceleration, FRAME_RATE);
     }
 
     public static float[] adjustAccelerationOrientation(int displayRotation, float[] eventValues) {

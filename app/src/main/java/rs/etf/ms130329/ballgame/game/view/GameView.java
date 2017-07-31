@@ -2,11 +2,13 @@ package rs.etf.ms130329.ballgame.game.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.util.TypedValue;
 import android.view.View;
 
-import rs.etf.ms130329.ballgame.R;
+import rs.etf.ms130329.ballgame.model.objects.Box;
 import rs.etf.ms130329.ballgame.model.objects.Polygon;
+import rs.etf.ms130329.ballgame.model.physics.collision.BoxCollision;
+import rs.etf.ms130329.ballgame.model.physics.collision.Collision;
+import rs.etf.ms130329.ballgame.model.physics.motion.Acceleration;
 
 /**
  * Created by stevan on 7/30/17.
@@ -19,16 +21,6 @@ public class GameView extends View{
     public GameView(Context context, Polygon polygon) {
         super(context);
         this.polygon = polygon;
-
-
-        TypedValue frictionFactor = new TypedValue();
-        getResources().getValue(R.dimen.friction_factor, frictionFactor, true);
-
-        TypedValue collisionFactor = new TypedValue();
-        getResources().getValue(R.dimen.collision_factor, collisionFactor, true);
-
-        polygon.getBall().setFactors(frictionFactor.getFloat(), collisionFactor.getFloat());
-
     }
 
     @Override
@@ -38,7 +30,13 @@ public class GameView extends View{
     }
 
     public void update(float[] s, float dT){
-        polygon.getBall().accelerate(s[0], s[1], dT, polygon.getBox().getCollision(polygon.getBall()));
+        Acceleration acceleration = new Acceleration(-s[0], -s[1]);
+        Collision collision = null;
+        polygon.getBox().setCollisionState(polygon.getBall());
+        if(polygon.getBox().getCollisionState() != Box.CollisionState.NONE) {
+            collision = new BoxCollision(polygon.getCollisionFactor(), polygon.getBall(), polygon.getBox());
+        }
+        polygon.getBall().accelerate(acceleration, dT, polygon.getFrictionFactor(), collision);
         invalidate();
     }
 

@@ -19,7 +19,7 @@ public abstract class ExtendedDrawable extends Drawable implements Serializable{
 
     static final long serialVersionUID = 1L;
 
-    transient Paint paint;
+    protected transient Paint paint;
     private int color;
 
     ExtendedDrawable(int color) {

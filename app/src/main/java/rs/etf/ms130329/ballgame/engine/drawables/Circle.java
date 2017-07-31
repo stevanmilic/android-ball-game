@@ -20,20 +20,24 @@ public class Circle extends Figure {
         super(color, x, y);
 
         this.radius = radius;
-        setCircleBounds(radius);
+        setCircleBounds(x, y, radius);
+    }
+
+    public float getRadius() {
+        return radius;
     }
 
     @Override
     public void draw(@NonNull Canvas canvas) {
-        canvas.drawCircle(x, y, radius, paint);
+        canvas.drawCircle(point.getPointX(), point.getPointY(), radius, paint);
     }
 
-    protected void setCircleBounds(float radius) {
+    protected void setCircleBounds(float x, float y, float radius) {
         super.setBounds(x - radius, y - radius, x + radius, y + radius);
     }
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
-        setCircleBounds(radius);
+        setCircleBounds(point.getPointX(), point.getPointY(),radius);
     }
 }
