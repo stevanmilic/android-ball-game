@@ -8,14 +8,15 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import rs.etf.ms130329.ballgame.MainActivity;
+import rs.etf.ms130329.ballgame.R;
 import rs.etf.ms130329.ballgame.game.model.GameModel;
 import rs.etf.ms130329.ballgame.game.view.GameView;
-import rs.etf.ms130329.ballgame.model.objects.Polygon;
+import rs.etf.ms130329.ballgame.engine.objects.Polygon;
 
 public class GameController extends Activity implements SensorEventListener {
 
@@ -70,7 +71,18 @@ public class GameController extends Activity implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent event) {
         float[] sensorAcceleration = adjustAccelerationOrientation(windowManager.getDefaultDisplay().getRotation(), event.values);
-        gameView.update(sensorAcceleration, FRAME_RATE);
+        switch(gameView.update(sensorAcceleration, FRAME_RATE)) {
+            case WON:
+                showInfo(getResources().getString(R.string.won_the_game));
+                mSensorManager.unregisterListener(this);
+                break;
+            case LOST:
+                showInfo(getResources().getString(R.string.lost_the_game));
+                mSensorManager.unregisterListener(this);
+                break;
+            case RUNNING:
+                break;
+        }
     }
 
     public static float[] adjustAccelerationOrientation(int displayRotation, float[] eventValues) {
@@ -93,5 +105,10 @@ public class GameController extends Activity implements SensorEventListener {
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
+    }
+
+    private void showInfo(String info) {
+        Toast toast = Toast.makeText(getApplicationContext(), info, Toast.LENGTH_LONG);
+        toast.show();
     }
 }

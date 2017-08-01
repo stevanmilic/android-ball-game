@@ -1,4 +1,6 @@
-package rs.etf.ms130329.ballgame.model.physics.geometry;
+package rs.etf.ms130329.ballgame.engine.physics.geometry;
+
+import static android.util.FloatMath.sqrt;
 
 /**
  * Created by stevan on 7/31/17.
@@ -26,13 +28,21 @@ public class Vector extends Point {
         pointY += vector.getPointY();
     }
 
+    public Vector getUnitVector() {
+        return new Vector(Math.signum(pointX), Math.signum(pointY));
+    }
+
+    public float getMagnitude() {
+        return sqrt(pointX*pointX + pointY*pointY);
+    }
+
     public static Vector add(Vector firstVector, Vector secondVector) {
         float newPointX = firstVector.getPointX() + secondVector.getPointX();
         float newPointY = firstVector.getPointY() + secondVector.getPointY();
         return new Vector(newPointX, newPointY);
     }
 
-    public static Vector substract(Vector firstVector, Vector secondVector) {
+    public static Vector subtract(Vector firstVector, Vector secondVector) {
         float newPointX = firstVector.getPointX() - secondVector.getPointX();
         float newPointY = firstVector.getPointY() - secondVector.getPointY();
         return new Vector(newPointX, newPointY);
@@ -43,4 +53,5 @@ public class Vector extends Point {
         float newPointY = firstVector.getPointY() * constant;
         return new Vector(newPointX, newPointY);
     }
+
 }

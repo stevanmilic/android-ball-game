@@ -1,9 +1,9 @@
-package rs.etf.ms130329.ballgame.model.objects;
+package rs.etf.ms130329.ballgame.engine.objects;
 
 import android.graphics.Rect;
 
-import rs.etf.ms130329.ballgame.model.drawables.Background;
-import rs.etf.ms130329.ballgame.model.drawables.Figure;
+import rs.etf.ms130329.ballgame.engine.drawables.Background;
+import rs.etf.ms130329.ballgame.engine.drawables.Figure;
 
 /**
  * Created by stevan on 7/27/17.
@@ -27,9 +27,9 @@ public class Box extends Background {
         super(color, width, height);
     }
 
-    public void setCollisionState(Figure figure) {
+    public void setCollisionState(Ball ball) {
         Rect boxBounds = getBounds();
-        Rect figureBounds = figure.getBounds();
+        Rect figureBounds = ball.getBounds();
         if (figureBounds.left <= boxBounds.left) {
             collisionState = CollisionState.LEFT;
         } else if (figureBounds.top <= boxBounds.top) {

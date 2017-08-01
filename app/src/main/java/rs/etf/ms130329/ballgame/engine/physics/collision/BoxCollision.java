@@ -1,11 +1,12 @@
-package rs.etf.ms130329.ballgame.model.physics.collision;
+package rs.etf.ms130329.ballgame.engine.physics.collision;
 
 import android.graphics.Rect;
 
-import rs.etf.ms130329.ballgame.model.objects.Ball;
-import rs.etf.ms130329.ballgame.model.objects.Box;
-import rs.etf.ms130329.ballgame.model.physics.geometry.Vector;
-import rs.etf.ms130329.ballgame.model.physics.motion.Position;
+import rs.etf.ms130329.ballgame.engine.objects.Ball;
+import rs.etf.ms130329.ballgame.engine.objects.Box;
+import rs.etf.ms130329.ballgame.engine.physics.geometry.Point;
+import rs.etf.ms130329.ballgame.engine.physics.geometry.Vector;
+import rs.etf.ms130329.ballgame.engine.physics.motion.Position;
 
 /**
  * Created by stevan on 7/31/17.
@@ -21,24 +22,24 @@ public class BoxCollision extends Collision{
         Rect boxRect = box.getBounds();
         Position ballPosition = ball.getPosition();
 
-        Vector closest = null;
+        Point closest = null;
 
         switch(collisionState){
             case LEFT:
-                closest = new Vector(boxRect.left, ballPosition.getPointY());
+                closest = new Point(boxRect.left, ballPosition.getPointY());
                 normal = new Vector(1 , 0) ;
                 break;
             case TOP:
-                closest = new Vector(ballPosition.getPointX(), boxRect.top);
+                closest = new Point(ballPosition.getPointX(), boxRect.top);
                 normal = new Vector(0 , 1) ;
                 break;
             case RIGHT:
-                closest = new Vector(boxRect.right, ballPosition.getPointY());
+                closest = new Point(boxRect.right, ballPosition.getPointY());
                 normal = new Vector(-1 , 0) ;
                 break;
             case BOTTOM:
+                closest = new Point(ballPosition.getPointX(), boxRect.bottom);
                 normal = new Vector(0 , -1) ;
-                closest = new Vector(ballPosition.getPointX(), boxRect.bottom);
         }
 
         penetration = closest.getDistance(ballPosition);

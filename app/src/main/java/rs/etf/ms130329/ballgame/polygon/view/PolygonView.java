@@ -2,16 +2,15 @@ package rs.etf.ms130329.ballgame.polygon.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.util.TypedValue;
 import android.view.View;
 
 import rs.etf.ms130329.ballgame.R;
-import rs.etf.ms130329.ballgame.model.objects.Ball;
-import rs.etf.ms130329.ballgame.model.objects.BlackHole;
-import rs.etf.ms130329.ballgame.model.objects.Box;
-import rs.etf.ms130329.ballgame.model.objects.Obstacle;
-import rs.etf.ms130329.ballgame.model.objects.Polygon;
-import rs.etf.ms130329.ballgame.model.objects.WinningHole;
+import rs.etf.ms130329.ballgame.engine.objects.Ball;
+import rs.etf.ms130329.ballgame.engine.objects.BlackHole;
+import rs.etf.ms130329.ballgame.engine.objects.Box;
+import rs.etf.ms130329.ballgame.engine.objects.Obstacle;
+import rs.etf.ms130329.ballgame.engine.objects.Polygon;
+import rs.etf.ms130329.ballgame.engine.objects.WinningHole;
 
 
 /**

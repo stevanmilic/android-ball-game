@@ -14,7 +14,7 @@ import android.widget.ListView;
 import rs.etf.ms130329.ballgame.game.controller.GameController;
 import rs.etf.ms130329.ballgame.polygon.controller.PolygonController;
 import rs.etf.ms130329.ballgame.polygon.model.PolygonModel;
-import rs.etf.ms130329.ballgame.model.objects.Polygon;
+import rs.etf.ms130329.ballgame.engine.objects.Polygon;
 
 public class MainActivity extends Activity {
 

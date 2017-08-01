@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.TypedValue;
 
 import rs.etf.ms130329.ballgame.R;
-import rs.etf.ms130329.ballgame.model.objects.Polygon;
+import rs.etf.ms130329.ballgame.engine.objects.Polygon;
 
 /**
  * Created by stevan on 7/30/17.

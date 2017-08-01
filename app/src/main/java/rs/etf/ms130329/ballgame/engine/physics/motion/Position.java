@@ -1,8 +1,8 @@
-package rs.etf.ms130329.ballgame.model.physics.motion;
+package rs.etf.ms130329.ballgame.engine.physics.motion;
 
-import rs.etf.ms130329.ballgame.model.physics.collision.Collision;
-import rs.etf.ms130329.ballgame.model.physics.geometry.Point;
-import rs.etf.ms130329.ballgame.model.physics.geometry.Vector;
+import rs.etf.ms130329.ballgame.engine.physics.collision.Collision;
+import rs.etf.ms130329.ballgame.engine.physics.geometry.Point;
+import rs.etf.ms130329.ballgame.engine.physics.geometry.Vector;
 
 import static java.lang.Math.max;
 

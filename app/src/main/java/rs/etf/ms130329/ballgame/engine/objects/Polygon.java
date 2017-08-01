@@ -1,11 +1,14 @@
-package rs.etf.ms130329.ballgame.model.objects;
+package rs.etf.ms130329.ballgame.engine.objects;
+
+import android.graphics.Canvas;
+import android.support.annotation.NonNull;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import rs.etf.ms130329.ballgame.model.drawables.Drawables;
-import rs.etf.ms130329.ballgame.model.drawables.ExtendedDrawable;
-import rs.etf.ms130329.ballgame.model.drawables.Figure;
+import rs.etf.ms130329.ballgame.engine.drawables.Drawables;
+import rs.etf.ms130329.ballgame.engine.drawables.ExtendedDrawable;
+import rs.etf.ms130329.ballgame.engine.drawables.Figure;
 
 /**
  * Created by stevan on 7/27/17.
@@ -114,5 +117,18 @@ public class Polygon extends Drawables {
             }
         }
         return true;
+    }
+
+    @Override
+    public void draw(@NonNull Canvas canvas) {
+        box.draw(canvas);
+        for (Obstacle obstacle : obstacles) {
+            obstacle.draw(canvas);
+        }
+        for (BlackHole blackHole : blackHoles) {
+            blackHole.draw(canvas);
+        }
+        winningHole.draw(canvas);
+        ball.draw(canvas);
     }
 }

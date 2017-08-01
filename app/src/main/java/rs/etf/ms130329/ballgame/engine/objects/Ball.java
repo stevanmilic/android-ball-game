@@ -1,13 +1,13 @@
-package rs.etf.ms130329.ballgame.model.objects;
+package rs.etf.ms130329.ballgame.engine.objects;
 
 import android.graphics.Canvas;
 import android.support.annotation.NonNull;
 
-import rs.etf.ms130329.ballgame.model.drawables.Circle;
-import rs.etf.ms130329.ballgame.model.physics.collision.Collision;
-import rs.etf.ms130329.ballgame.model.physics.motion.Acceleration;
-import rs.etf.ms130329.ballgame.model.physics.motion.Position;
-import rs.etf.ms130329.ballgame.model.physics.motion.Velocity;
+import rs.etf.ms130329.ballgame.engine.drawables.Circle;
+import rs.etf.ms130329.ballgame.engine.physics.collision.Collision;
+import rs.etf.ms130329.ballgame.engine.physics.motion.Acceleration;
+import rs.etf.ms130329.ballgame.engine.physics.motion.Position;
+import rs.etf.ms130329.ballgame.engine.physics.motion.Velocity;
 
 /**
  * Created by stevan on 7/27/17.

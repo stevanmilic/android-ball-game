@@ -1,6 +1,6 @@
-package rs.etf.ms130329.ballgame.model.physics.collision;
+package rs.etf.ms130329.ballgame.engine.physics.collision;
 
-import rs.etf.ms130329.ballgame.model.physics.geometry.Vector;
+import rs.etf.ms130329.ballgame.engine.physics.geometry.Vector;
 
 /**
  * Created by stevan on 7/31/17.

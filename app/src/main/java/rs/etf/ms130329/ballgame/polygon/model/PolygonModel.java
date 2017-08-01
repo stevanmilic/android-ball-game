@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 
-import rs.etf.ms130329.ballgame.model.objects.Polygon;
+import rs.etf.ms130329.ballgame.engine.objects.Polygon;
 
 /**
  * Created by stevan on 7/28/17.

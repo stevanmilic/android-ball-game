@@ -1,4 +1,4 @@
-package rs.etf.ms130329.ballgame.model.drawables;
+package rs.etf.ms130329.ballgame.engine.drawables;
 
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;

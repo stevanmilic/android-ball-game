@@ -1,4 +1,4 @@
-package rs.etf.ms130329.ballgame.model.drawables;
+package rs.etf.ms130329.ballgame.engine.drawables;
 
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
@@ -26,6 +26,7 @@ public abstract class ExtendedDrawable extends Drawable implements Serializable{
         this.color = color;
         paint = new Paint();
         paint.setColor(color);
+        paint.setAntiAlias(true);
     }
 
     @CallSuper

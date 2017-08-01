@@ -1,12 +1,14 @@
-package rs.etf.ms130329.ballgame.model.drawables;
+package rs.etf.ms130329.ballgame.engine.drawables;
 
 import android.graphics.Canvas;
 import android.support.annotation.NonNull;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.LinkedList;
+import java.util.List;
 
-import static android.R.attr.radius;
+import rs.etf.ms130329.ballgame.engine.physics.geometry.Point;
 
 /**
  * Created by stevan on 7/27/17.
@@ -16,33 +18,43 @@ public class Rectangle extends Figure {
 
     static final long serialVersionUID = 5L;
 
-    private float height;
-    private float width;
+    protected float left, top, right, bottom;
 
-    public Rectangle(int color, float x, float y, float width, float height) {
-        super(color, x, y);
+    public Rectangle(int color, float centerX, float centerY, float width, float height) {
+        super(color, centerX, centerY);
 
-        this.height = height;
-        this.width = width;
-        super.setBounds(x, y, x + width, y + height);
+        left = centerX - width / 2;
+        right = centerX + width / 2;
+        bottom = centerY + height / 2;
+        top = centerY - height / 2;
+
+        super.setBounds(left, top, right, bottom);
     }
 
-    public float getHeight() {
-        return height;
+    public float getLeft() {
+        return left;
     }
 
-    public float getWidth() {
-        return width;
+    public float getTop() {
+        return top;
+    }
+
+    public float getRight() {
+        return right;
+    }
+
+    public float getBottom() {
+        return bottom;
     }
 
     @Override
     public void draw(@NonNull Canvas canvas) {
-        canvas.drawRect(point.getPointX(), point.getPointY(), point.getPointX() + width, point.getPointY() + height,
-                paint);
+        canvas.drawRect(left, top, right, bottom, paint);
     }
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
-        super.setBounds(point.getPointX(), point.getPointY(), point.getPointX() + width, point.getPointY() + height);
+        super.setBounds(left, top, right, bottom);
     }
 }
+
