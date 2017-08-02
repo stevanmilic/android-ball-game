@@ -149,7 +149,8 @@ public class PolygonController extends Activity {
         builder.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                polygonModel.exportPolygonToFile(polygonView.getPolygon(), input.getText().toString());
+                polygonView.getPolygon().setName(input.getText().toString());
+                polygonModel.exportPolygonToFile(polygonView.getPolygon());
                 finish();
             }
         });

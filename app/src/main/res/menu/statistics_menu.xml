@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/reset_polygon_statistics"
+          android:title="@string/reset_polygon_statistics" />
+    <item android:id="@+id/reset_statistics"
+          android:title="@string/reset_statistics" />
+</menu>

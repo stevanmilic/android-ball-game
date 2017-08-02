@@ -26,6 +26,12 @@ public class Ball extends Circle {
         velocity = new Velocity(0, 0);
     }
 
+    public void resetPosition() {
+        position.setPointX(point.getPointX());
+        position.setPointY(point.getPointY());
+        velocity = new Velocity(0, 0);
+    }
+
     public Position getPosition() {
         return position;
     }
@@ -38,13 +44,13 @@ public class Ball extends Circle {
 
         velocity.changeDueToAcceleration(acceleration, dT, frictionFactor);
 
-        if(collision != null) {
+        if (collision != null) {
             velocity.changeDueToCollision(collision);
         }
 
         position.verletIntegration(velocity, acceleration, dT);
 
-        if(collision != null) {
+        if (collision != null) {
             position.correction(collision);
         }
 

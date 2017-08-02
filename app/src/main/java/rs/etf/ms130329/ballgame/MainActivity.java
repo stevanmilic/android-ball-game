@@ -15,12 +15,12 @@ import rs.etf.ms130329.ballgame.game.controller.GameController;
 import rs.etf.ms130329.ballgame.polygon.controller.PolygonController;
 import rs.etf.ms130329.ballgame.polygon.model.PolygonModel;
 import rs.etf.ms130329.ballgame.engine.objects.Polygon;
+import rs.etf.ms130329.ballgame.statistics.controller.StatisticsActivity;
 
 public class MainActivity extends Activity {
 
     PolygonModel polygonModel;
-    ArrayAdapter<String> adapter;
-    public static final String PARAMETER_KEY = "polygon";
+    public static final String GAME_PARAMETER_KEY = "polygon";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +28,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_ball_game);
         polygonModel = new PolygonModel(this);
 
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,
                 polygonModel.getAllPolygons());
 
         ListView listView = (ListView) findViewById(R.id.polygon_list);
@@ -37,10 +37,11 @@ public class MainActivity extends Activity {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                String polygonName = adapter.getItem(position);
+                ArrayAdapter<String> arrayAdapter = (ArrayAdapter) parent.getAdapter();
+                String polygonName = arrayAdapter.getItem(position);
                 polygonModel.deletePolygon(polygonName);
-                adapter.remove(polygonName);
-                adapter.notifyDataSetChanged();
+                arrayAdapter.remove(polygonName);
+                arrayAdapter.notifyDataSetChanged();
                 return true;
             }
         });
@@ -48,9 +49,10 @@ public class MainActivity extends Activity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Polygon polygon = polygonModel.importPolygonFromFile(adapter.getItem(position));
+                ArrayAdapter<String> arrayAdapter = (ArrayAdapter) parent.getAdapter();
+                Polygon polygon = polygonModel.importPolygonFromFile(arrayAdapter.getItem(position));
                 Intent intent = new Intent(getApplicationContext(), GameController.class);
-                intent.putExtra(PARAMETER_KEY, polygon);
+                intent.putExtra(GAME_PARAMETER_KEY, polygon);
                 startActivity(intent);
             }
         });
@@ -59,6 +61,8 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        ListView listView = (ListView) findViewById(R.id.polygon_list);
+        ArrayAdapter adapter = (ArrayAdapter) listView.getAdapter();
         adapter.clear();
         adapter.addAll(polygonModel.getAllPolygons());
         adapter.notifyDataSetChanged();
@@ -73,12 +77,15 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
         switch(item.getItemId()) {
             case R.id.new_polygon:
-                Intent intent = new Intent(this, PolygonController.class);
+                intent = new Intent(this, PolygonController.class);
                 startActivity(intent);
                 return true;
             case R.id.statistics:
+                intent = new Intent(getApplicationContext(), StatisticsActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.settings:
                 return true;

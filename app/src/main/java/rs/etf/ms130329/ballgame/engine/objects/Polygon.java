@@ -1,8 +1,5 @@
 package rs.etf.ms130329.ballgame.engine.objects;
 
-import android.graphics.Canvas;
-import android.support.annotation.NonNull;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,6 +15,7 @@ public class Polygon extends Drawables {
 
     static final long serialVersionUID = 10L;
 
+    private String name;
     private Box box;
     private Ball ball;
     private List<Obstacle> obstacles = new LinkedList<>();
@@ -31,11 +29,19 @@ public class Polygon extends Drawables {
         return ball;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public boolean setBall(Ball ball) {
         if (!isPositionValid(ball)) {
             return false;
         }
-        super.add(ball);
+        drawables.add(ball);
         this.ball = ball;
         return true;
     }
@@ -48,7 +54,7 @@ public class Polygon extends Drawables {
         if (!isPositionValid(obstacle)) {
             return false;
         }
-        super.add(obstacle);
+        drawables.add(1, obstacle);
         obstacles.add(obstacle);
         return true;
     }
@@ -61,7 +67,7 @@ public class Polygon extends Drawables {
         if (!isPositionValid(blackHole)) {
             return false;
         }
-        super.add(blackHole);
+        drawables.add(1, blackHole);
         blackHoles.add(blackHole);
         return true;
     }
@@ -74,7 +80,7 @@ public class Polygon extends Drawables {
         if (!isPositionValid(winningHole)) {
             return false;
         }
-        super.add(winningHole);
+        drawables.add(1, winningHole);
         this.winningHole = winningHole;
         return true;
     }
@@ -85,7 +91,7 @@ public class Polygon extends Drawables {
 
     public void setBox(Box box) {
         this.box = box;
-        super.add(box);
+        drawables.add(box);
     }
 
     public float getFrictionFactor() {
@@ -119,16 +125,16 @@ public class Polygon extends Drawables {
         return true;
     }
 
-    @Override
-    public void draw(@NonNull Canvas canvas) {
-        box.draw(canvas);
-        for (Obstacle obstacle : obstacles) {
-            obstacle.draw(canvas);
-        }
-        for (BlackHole blackHole : blackHoles) {
-            blackHole.draw(canvas);
-        }
-        winningHole.draw(canvas);
-        ball.draw(canvas);
-    }
+//    @Override
+//    public void draw(@NonNull Canvas canvas) {
+//        box.draw(canvas);
+//        for (Obstacle obstacle : obstacles) {
+//            obstacle.draw(canvas);
+//        }
+//        for (BlackHole blackHole : blackHoles) {
+//            blackHole.draw(canvas);
+//        }
+//        winningHole.draw(canvas);
+//        ball.draw(canvas);
+//    }
 }

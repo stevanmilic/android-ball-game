@@ -13,6 +13,7 @@ import rs.etf.ms130329.ballgame.engine.physics.collision.BoxCollision;
 import rs.etf.ms130329.ballgame.engine.physics.collision.Collision;
 import rs.etf.ms130329.ballgame.engine.physics.collision.ObstacleCollision;
 import rs.etf.ms130329.ballgame.engine.physics.motion.Acceleration;
+import rs.etf.ms130329.ballgame.game.controller.GameController.GameState;
 
 /**
  * Created by stevan on 7/30/17.
@@ -22,15 +23,17 @@ public class GameView extends View {
 
     private Polygon polygon;
 
-    enum GameState {
-        RUNNING,
-        LOST,
-        WON
-    }
-
     public GameView(Context context, Polygon polygon) {
         super(context);
         this.polygon = polygon;
+    }
+
+    public String getPolygonName() {
+        return polygon.getName();
+    }
+
+    public void setBallToStartingPosition() {
+        polygon.getBall().resetPosition();
     }
 
     @Override

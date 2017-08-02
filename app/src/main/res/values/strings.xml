@@ -13,8 +13,11 @@
     <string name="save_dialog">Save Polygon</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
-    <string name="choose_polygon">Choose Polygon to Play the Game</string>
+    <string name="choose_polygon_game">Choose Polygon to Play the Game</string>
     <string name="invalid_draw">Can\'t touch this!</string>
     <string name="won_the_game">You\'ve succeeded, the ball is saved!</string>
-    <string name="lost_the_game">Death is approaching…</string>
+    <string name="lost_the_game">Death is approaching…Tap screen to try again</string>
+    <string name="choose_polygon_statistics">Choose Polygon to display statistics</string>
+    <string name="reset_polygon_statistics">Reset polygon statistics</string>
+    <string name="reset_statistics">Reset complete statistics</string>
 </resources>

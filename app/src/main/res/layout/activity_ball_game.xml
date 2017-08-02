@@ -4,21 +4,21 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
+              android:layout_margin="10dp"
               tools:context="rs.etf.ms130329.ballgame.MainActivity">
 
     <TextView
         style="@style/AppTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/choose_polygon"
+        android:text="@string/choose_polygon_game"
         android:textAlignment="center"
         android:textSize="10pt"/>
 
     <ListView
         android:id="@+id/polygon_list"
+        style="@style/AppTheme"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/AppTheme"/>
-
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

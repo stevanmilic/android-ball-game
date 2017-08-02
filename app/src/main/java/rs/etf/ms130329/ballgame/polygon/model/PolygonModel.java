@@ -28,8 +28,8 @@ public class PolygonModel {
         this.context = context;
     }
 
-    public void exportPolygonToFile(Polygon polygon, String name) {
-        String fileName = name + POLYGON_EXTENSION;
+    public void exportPolygonToFile(Polygon polygon) {
+        String fileName = polygon.getName() + POLYGON_EXTENSION;
         try {
             FileOutputStream fileOutputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
