@@ -10,7 +10,7 @@
     <string name="save_polygon">Tap screen to save polygon</string>
     <string name="obstacles_left">obstacles left!</string>
     <string name="black_holes_left">black holes left!</string>
-    <string name="save_dialog">Save Polygon</string>
+    <string name="save_polygon_dialog">Save Polygon</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="choose_polygon_game">Choose Polygon to Play the Game</string>
@@ -20,4 +20,5 @@
     <string name="choose_polygon_statistics">Choose Polygon to display statistics</string>
     <string name="reset_polygon_statistics">Reset polygon statistics</string>
     <string name="reset_statistics">Reset complete statistics</string>
+    <string name="save_score_dialog">Save Score</string>
 </resources>

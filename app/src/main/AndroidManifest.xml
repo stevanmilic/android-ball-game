@@ -16,9 +16,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".polygon.controller.PolygonController"/>
-        <activity android:name=".game.controller.GameController"/>
-        <activity android:name=".statistics.controller.StatisticsActivity">
-        </activity>
+        <activity android:name=".game.controller.GameController" android:hardwareAccelerated="true"/>
+        <activity android:name=".statistics.controller.StatisticsActivity"/>
     </application>
 
 </manifest>

@@ -23,7 +23,7 @@ import rs.etf.ms130329.ballgame.MainActivity;
 import rs.etf.ms130329.ballgame.R;
 import rs.etf.ms130329.ballgame.engine.objects.Polygon;
 import rs.etf.ms130329.ballgame.game.model.GameModel;
-import rs.etf.ms130329.ballgame.game.view.GameView;
+import rs.etf.ms130329.ballgame.game.view.GameSurfaceView;
 import rs.etf.ms130329.ballgame.statistics.controller.StatisticsActivity;
 
 public class GameController extends Activity implements SensorEventListener{
@@ -35,7 +35,7 @@ public class GameController extends Activity implements SensorEventListener{
     }
 
     GameModel gameModel;
-    GameView gameView;
+    GameSurfaceView gameSurfaceView;
 
     GameState gameState;
 
@@ -44,7 +44,7 @@ public class GameController extends Activity implements SensorEventListener{
 
     private WindowManager windowManager;
 
-    private static final float FRAME_RATE = 0.333f;
+    private static final float FRAME_RATE = 0.35f;
 
     private static final String TAG = "GameController";
 
@@ -70,10 +70,10 @@ public class GameController extends Activity implements SensorEventListener{
 
         Polygon polygon = (Polygon) extras.get(MainActivity.GAME_PARAMETER_KEY);
 
-        gameView = new GameView(this, polygon);
         gameModel = new GameModel(this, polygon);
+        gameSurfaceView = new GameSurfaceView(this, polygon);
 
-        setContentView(gameView);
+        setContentView(gameSurfaceView);
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -94,7 +94,7 @@ public class GameController extends Activity implements SensorEventListener{
     @Override
     public void onSensorChanged(SensorEvent event) {
         float[] sensorAcceleration = adjustAccelerationOrientation(windowManager.getDefaultDisplay().getRotation(), event.values);
-        switch (gameView.update(sensorAcceleration, FRAME_RATE)) {
+        switch (gameSurfaceView.update(sensorAcceleration, FRAME_RATE)) {
             case WON:
                 gameWonAction();
                 break;
@@ -147,7 +147,7 @@ public class GameController extends Activity implements SensorEventListener{
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if(gameState == GameState.LOST) {
-            gameView.setBallToStartingPosition();
+            gameSurfaceView.setBallToStartingPosition();
             mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_GAME);
             gameStartTime = SystemClock.elapsedRealtime();
         }
@@ -161,7 +161,7 @@ public class GameController extends Activity implements SensorEventListener{
 
     private void showSaveDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(getResources().getString(R.string.save_dialog));
+        builder.setTitle(getResources().getString(R.string.save_score_dialog));
 
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -170,9 +170,9 @@ public class GameController extends Activity implements SensorEventListener{
         builder.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                gameModel.insertScoreEntry(gameView.getPolygonName(), gameEndTimeInSeconds, input.getText().toString());
+                gameModel.insertScoreEntry(gameSurfaceView.getPolygonName(), gameEndTimeInSeconds, input.getText().toString());
                 Intent intent = new Intent(getApplicationContext(), StatisticsActivity.class);
-                intent.putExtra(STATISTICS_PARAMETER_KEY, gameView.getPolygonName());
+                intent.putExtra(STATISTICS_PARAMETER_KEY, gameSurfaceView.getPolygonName());
                 finish();
                 startActivity(intent);
             }

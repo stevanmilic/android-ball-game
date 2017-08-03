@@ -140,7 +140,7 @@ public class PolygonController extends Activity {
 
     private void showSaveDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(getResources().getString(R.string.save_dialog));
+        builder.setTitle(getResources().getString(R.string.save_polygon_dialog));
 
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);

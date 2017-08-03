@@ -19,6 +19,7 @@ import rs.etf.ms130329.ballgame.game.controller.GameController.GameState;
  * Created by stevan on 7/30/17.
  */
 
+@Deprecated
 public class GameView extends View {
 
     private Polygon polygon;
@@ -26,6 +27,10 @@ public class GameView extends View {
     public GameView(Context context, Polygon polygon) {
         super(context);
         this.polygon = polygon;
+    }
+
+    public Polygon getPolygon() {
+        return polygon;
     }
 
     public String getPolygonName() {

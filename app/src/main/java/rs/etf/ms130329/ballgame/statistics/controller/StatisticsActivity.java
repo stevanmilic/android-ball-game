@@ -116,8 +116,7 @@ public class StatisticsActivity extends Activity implements AdapterView.OnItemCl
     }
 
     private void setPolygonListState(Context context) {
-        SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(context, android.R.layout
-                .simple_expandable_list_item_2,
+        SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(context, android.R.layout.simple_list_item_1,
                 statisticsModel.getPolygonCursor(), new String[]{ScoreEntry.COLUMN_NAME_POLYGON_NAME},
                 new int[]{android.R.id.text1}, 0);
 
