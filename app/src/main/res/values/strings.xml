@@ -21,4 +21,16 @@
     <string name="reset_polygon_statistics">Reset polygon statistics</string>
     <string name="reset_statistics">Reset complete statistics</string>
     <string name="save_score_dialog">Save Score</string>
+    <string name="ball_radius">Ball radius</string>
+    <string name="obstacle_width">Obstacle width</string>
+    <string name="obstacle_height">Obstacle height</string>
+    <string name="black_hole_radius">Black hole radius</string>
+    <string name="winning_hole_radius">Winning hole radius</string>
+    <string name="no_obstacles">No obstacles</string>
+    <string name="no_black_holes">No black holes</string>
+    <string name="friction_factor">Friction factor</string>
+    <string name="collision_factor">Collision factor</string>
+    <string name="friction_factor_default">0.9</string>
+    <string name="collision_factor_default">0.7</string>
+    <string name="default_values">Reset to Default values</string>
 </resources>

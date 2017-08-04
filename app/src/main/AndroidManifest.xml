@@ -18,6 +18,7 @@
         <activity android:name=".polygon.controller.PolygonController"/>
         <activity android:name=".game.controller.GameController" android:hardwareAccelerated="true"/>
         <activity android:name=".statistics.controller.StatisticsActivity"/>
+        <activity android:name=".settings.SettingsActivity"/>
     </application>
 
 </manifest>

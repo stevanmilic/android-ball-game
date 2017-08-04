@@ -42,10 +42,10 @@ public class PolygonController extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        setDrawBallState();
-
         polygonView = new PolygonView(this);
         polygonModel = new PolygonModel(this);
+
+        setDrawBallState();
 
         setContentView(polygonView);
     }
@@ -58,28 +58,28 @@ public class PolygonController extends Activity {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             switch (state) {
                 case DRAW_BALL:
-                    if(polygonView.drawBall(x, y)) {
+                    if(polygonView.drawBall(x, y, polygonModel.getBallRadius())) {
                         setDrawObstaclesState();
                     } else {
                         showInfo(getResources().getString(R.string.invalid_draw));
                     }
                     break;
                 case DRAW_OBSTACLES:
-                    if(polygonView.drawObstacle(x, y)) {
+                    if(polygonView.drawObstacle(x, y, polygonModel.getObstacleWidth(), polygonModel.getObstacleHeight())) {
                         setDrawBlackHolesState();
                     } else {
                         showInfo(getResources().getString(R.string.invalid_draw));
                     }
                     break;
                 case DRAW_BLACK_HOLES:
-                    if(polygonView.drawBlackHole(x, y)) {
+                    if(polygonView.drawBlackHole(x, y, polygonModel.getBlackHoleRadius())) {
                         setDrawWinningHoleState();
                     } else {
                         showInfo(getResources().getString(R.string.invalid_draw));
                     }
                     break;
                 case DRAW_WINNING_HOLE:
-                    if(polygonView.drawWinningHole(x, y)) {
+                    if(polygonView.drawWinningHole(x, y, polygonModel.getWinningHoleRadius())) {
                         setDrawDoneState();
                     } else {
                         showInfo(getResources().getString(R.string.invalid_draw));
@@ -97,8 +97,8 @@ public class PolygonController extends Activity {
 
     private void setDrawBallState() {
         showInfo(getResources().getString(R.string.draw_ball));
-        State.noObstacles = getResources().getInteger(R.integer.no_obstacles);
-        State.noBlackHoles = getResources().getInteger(R.integer.no_black_holes);
+        State.noObstacles = polygonModel.getNoObstacles();
+        State.noBlackHoles = polygonModel.getNoBlackHoles();
     }
 
     private void setDrawObstaclesState() {

@@ -1,5 +1,7 @@
 package rs.etf.ms130329.ballgame.engine.physics.collision;
 
+import android.annotation.SuppressLint;
+
 import rs.etf.ms130329.ballgame.engine.objects.Ball;
 import rs.etf.ms130329.ballgame.engine.objects.Obstacle;
 import rs.etf.ms130329.ballgame.engine.physics.geometry.Vector;
@@ -13,9 +15,11 @@ import static java.lang.Math.abs;
 
 public class ObstacleCollision extends Collision {
     //TODO: make it smart boy!
-    public ObstacleCollision(float collisionFactor, Ball ball, Obstacle obstacle, Obstacle.CollisionState
-            collisionState) {
+    @SuppressLint("FloatMath")
+    public ObstacleCollision(float collisionFactor, Ball ball, Obstacle obstacle) {
         super(collisionFactor);
+        //TODO: make abstract CollisionState, include Point to create a Vector
+        Obstacle.CollisionState collisionState = obstacle.getCollisionState();
         Vector closest = new Vector(collisionState.closest.getPointX(), collisionState.closest.getPointY());
 
         normal = Vector.subtract(ball.getPosition(), closest).getUnitVector();

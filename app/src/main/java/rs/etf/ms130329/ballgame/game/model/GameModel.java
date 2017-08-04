@@ -2,13 +2,16 @@ package rs.etf.ms130329.ballgame.game.model;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.preference.PreferenceManager;
 import android.util.TypedValue;
 
 import rs.etf.ms130329.ballgame.R;
 import rs.etf.ms130329.ballgame.database.ScoreContract.*;
 import rs.etf.ms130329.ballgame.database.ScoreDbHelper;
 import rs.etf.ms130329.ballgame.engine.objects.Polygon;
+import rs.etf.ms130329.ballgame.settings.SettingsActivity;
 
 /**
  * Created by stevan on 7/30/17.
@@ -20,14 +23,15 @@ public class GameModel {
 
     public GameModel(Context context, Polygon polygon) {
 
-        TypedValue frictionFactor = new TypedValue();
-        context.getResources().getValue(R.dimen.friction_factor, frictionFactor, true);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-        TypedValue collisionFactor = new TypedValue();
-        context.getResources().getValue(R.dimen.collision_factor, collisionFactor, true);
+        float frictionFactor = Float.parseFloat(sharedPreferences.getString(SettingsActivity.KEY_PREF_FRICTION_FACTOR,
+                context.getResources().getString(R.string.friction_factor_default)));
+        float collisionFactor = Float.parseFloat(sharedPreferences.getString(SettingsActivity.KEY_PREF_COLLISION_FACTOR,
+                context.getResources().getString(R.string.collision_factor_default)));
 
-        polygon.setFrictionFactor(frictionFactor.getFloat());
-        polygon.setCollisionFactor(collisionFactor.getFloat());
+        polygon.setFrictionFactor(frictionFactor);
+        polygon.setCollisionFactor(collisionFactor);
 
         scoreDbHelper = new ScoreDbHelper(context);
     }

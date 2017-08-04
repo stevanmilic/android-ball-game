@@ -42,7 +42,6 @@ public class StatisticsActivity extends Activity implements AdapterView.OnItemCl
         statisticsModel = new StatisticsModel(this);
 
         listView = (ListView) findViewById(R.id.statistics_polygon_list);
-        listView.setOnItemClickListener(this);
 
         textView = (TextView) findViewById(R.id.statistics_title);
 
@@ -53,6 +52,8 @@ public class StatisticsActivity extends Activity implements AdapterView.OnItemCl
             currentPolygonName = extras.getString(GameController.STATISTICS_PARAMETER_KEY);
             setPolygonStatisticsState(this, true);
         }
+
+        listView.setOnItemClickListener(this);
 
     }
 

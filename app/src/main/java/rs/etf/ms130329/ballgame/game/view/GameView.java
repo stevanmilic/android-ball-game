@@ -77,8 +77,7 @@ public class GameView extends View {
             for (Obstacle obstacle : polygon.getObstacles()) {
                 obstacle.setCollisionState(polygon.getBall());
                 if (obstacle.getCollisionState() != Obstacle.CollisionState.NONE) {
-                    collision = new ObstacleCollision(polygon.getCollisionFactor(), polygon.getBall(), obstacle,
-                            obstacle.getCollisionState());
+                    collision = new ObstacleCollision(polygon.getCollisionFactor(), polygon.getBall(), obstacle);
                     break;
                 }
             }

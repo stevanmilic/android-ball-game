@@ -2,6 +2,7 @@ package rs.etf.ms130329.ballgame.game.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.os.AsyncTask;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -41,39 +42,44 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         startWorkerThread();
     }
 
-    public GameState update(float[] s, float dT) {
+    public GameState update(final float[] s, final float dT) {
+
         polygon.getWinningHole().setCollisionState(polygon.getBall());
         if (polygon.getWinningHole().getCollisionState() != Hole.CollisionState.NONE) {
-            workerThread.setRunning(false);
+            stopWorkerThread();
             return GameState.WON;
         } else {
             for (BlackHole blackHole : polygon.getBlackHoles()) {
                 blackHole.setCollisionState(polygon.getBall());
                 if (blackHole.getCollisionState() != Hole.CollisionState.NONE) {
-                    workerThread.setRunning(false);
+                    stopWorkerThread();
                     return GameState.LOST;
                 }
             }
         }
 
-        Acceleration acceleration = new Acceleration(-s[0], -s[1]);
-        Collision collision = null;
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                Acceleration acceleration = new Acceleration(-s[0], -s[1]);
+                Collision collision = null;
 
-        polygon.getBox().setCollisionState(polygon.getBall());
-        if (polygon.getBox().getCollisionState() != Box.CollisionState.NONE) {
-            collision = new BoxCollision(polygon.getCollisionFactor(), polygon.getBall(), polygon.getBox());
-        } else {
-            for (Obstacle obstacle : polygon.getObstacles()) {
-                obstacle.setCollisionState(polygon.getBall());
-                if (obstacle.getCollisionState() != Obstacle.CollisionState.NONE) {
-                    collision = new ObstacleCollision(polygon.getCollisionFactor(), polygon.getBall(), obstacle,
-                            obstacle.getCollisionState());
-                    break;
+                polygon.getBox().setCollisionState(polygon.getBall());
+                if (polygon.getBox().getCollisionState() != Box.CollisionState.NONE) {
+                    collision = new BoxCollision(polygon.getCollisionFactor(), polygon.getBall(), polygon.getBox());
+                } else {
+                    for (Obstacle obstacle : polygon.getObstacles()) {
+                        obstacle.setCollisionState(polygon.getBall());
+                        if (obstacle.getCollisionState() != Obstacle.CollisionState.NONE) {
+                            collision = new ObstacleCollision(polygon.getCollisionFactor(), polygon.getBall(), obstacle);
+                            break;
+                        }
+                    }
                 }
-            }
-        }
 
-        polygon.getBall().accelerate(acceleration, dT, polygon.getFrictionFactor(), collision);
+                polygon.getBall().accelerate(acceleration, dT, polygon.getFrictionFactor(), collision);
+            }
+        });
 
         return GameState.RUNNING;
     }
@@ -98,20 +104,24 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     }
 
     private void startWorkerThread() {
-        workerThread = new WorkerThread(getHolder());
-        workerThread.setRunning(true);
-        workerThread.start();
+        if(workerThread == null || !workerThread.isRunning()) {
+            workerThread = new WorkerThread(getHolder());
+            workerThread.setRunning(true);
+            workerThread.start();
+        }
     }
 
     private void stopWorkerThread() {
-        boolean retry = true;
-        workerThread.setRunning(false);
-        while (retry) {
-            try {
-                workerThread.join();
-                retry = false;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        if(workerThread != null && workerThread.isRunning()) {
+            boolean retry = true;
+            workerThread.setRunning(false);
+            while (retry) {
+                try {
+                    workerThread.join();
+                    retry = false;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
