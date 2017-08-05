@@ -3,7 +3,10 @@ package rs.etf.ms130329.ballgame.engine.objects;
 import android.graphics.Canvas;
 import android.support.annotation.NonNull;
 
+import java.util.List;
+
 import rs.etf.ms130329.ballgame.engine.drawables.Circle;
+import rs.etf.ms130329.ballgame.engine.physics.collision.BounceCollision;
 import rs.etf.ms130329.ballgame.engine.physics.collision.Collision;
 import rs.etf.ms130329.ballgame.engine.physics.motion.Acceleration;
 import rs.etf.ms130329.ballgame.engine.physics.motion.Position;
@@ -40,18 +43,23 @@ public class Ball extends Circle {
         return velocity;
     }
 
-    public void accelerate(Acceleration acceleration, float dT, float frictionFactor, Collision collision) {
+    public void accelerate(Acceleration acceleration, float dT, List<Collision> collisionList,
+                           float frictionFactor, float collisionFactor) {
 
         velocity.changeDueToAcceleration(acceleration, dT, frictionFactor);
 
-        if (collision != null) {
-            velocity.changeDueToCollision(collision);
+        if (!collisionList.isEmpty()) {
+            for (Collision collision : collisionList) {
+                velocity.changeDueToCollision((BounceCollision) collision, collisionFactor);
+            }
         }
 
         position.verletIntegration(velocity, acceleration, dT);
 
-        if (collision != null) {
-            position.correction(collision);
+        if (!collisionList.isEmpty()) {
+            for (Collision collision : collisionList) {
+                position.correction((BounceCollision) collision);
+            }
         }
 
         super.setCircleBounds(position.getPointX(), position.getPointY(), radius);

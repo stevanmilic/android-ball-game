@@ -1,19 +1,16 @@
 package rs.etf.ms130329.ballgame.engine.objects;
 
+import java.util.List;
+
 import rs.etf.ms130329.ballgame.engine.drawables.Circle;
+import rs.etf.ms130329.ballgame.engine.physics.collision.Collision;
+import rs.etf.ms130329.ballgame.engine.physics.collision.HoleCollision;
 
 /**
  * Created by stevan on 7/27/17.
  */
 
-abstract public class Hole extends Circle {
-
-    public enum CollisionState {
-        EXISTS,
-        NONE
-    }
-
-    private CollisionState collisionState;
+abstract class Hole extends Circle implements Collidable{
 
     static final long serialVersionUID = 7L;
 
@@ -23,17 +20,13 @@ abstract public class Hole extends Circle {
 
     protected abstract float getCollisionRadius(float ballRadius);
 
-    public void setCollisionState(Ball ball) {
+    @Override
+    public void detectCollisions(List<Collision> collisionList, Ball ball) {
         float distanceToBall = point.getDistanceSquared(ball.getPosition());
         float radiusSum = radius + getCollisionRadius(ball.getRadius());
         if(distanceToBall <= radiusSum*radiusSum) {
-            collisionState = CollisionState.EXISTS;
-        } else {
-            collisionState = CollisionState.NONE;
+            collisionList.add(new HoleCollision());
         }
-    }
 
-    public CollisionState getCollisionState() {
-        return collisionState;
     }
 }

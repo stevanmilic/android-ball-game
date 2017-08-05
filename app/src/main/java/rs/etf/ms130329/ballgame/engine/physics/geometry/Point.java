@@ -48,6 +48,16 @@ public class Point implements Serializable {
        return pow(point.pointX - pointX, 2) + pow(point.pointY - pointY, 2);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Point)) return false;
+
+        Point point = (Point) o;
+
+        return Float.compare(point.pointX, pointX) == 0 && Float.compare(point.pointY, pointY) == 0;
+    }
+
     static public Point clampPoint(Point point, float minX, float maxX, float minY, float maxY) {
         float x = clamp(point.getPointX(), minX, maxX);
         float y = clamp(point.getPointY(), minY, maxY);

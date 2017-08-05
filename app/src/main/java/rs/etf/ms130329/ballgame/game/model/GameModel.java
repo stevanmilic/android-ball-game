@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
-import android.util.TypedValue;
 
 import rs.etf.ms130329.ballgame.R;
 import rs.etf.ms130329.ballgame.database.ScoreContract.*;

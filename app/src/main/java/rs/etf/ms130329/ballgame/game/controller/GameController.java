@@ -10,6 +10,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.AudioManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.text.InputType;
@@ -19,6 +21,9 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import rs.etf.ms130329.ballgame.MainActivity;
 import rs.etf.ms130329.ballgame.R;
 import rs.etf.ms130329.ballgame.engine.objects.Polygon;
@@ -26,18 +31,11 @@ import rs.etf.ms130329.ballgame.game.model.GameModel;
 import rs.etf.ms130329.ballgame.game.view.GameSurfaceView;
 import rs.etf.ms130329.ballgame.statistics.controller.StatisticsActivity;
 
-public class GameController extends Activity implements SensorEventListener{
-
-    public enum GameState {
-        RUNNING,
-        LOST,
-        WON
-    }
+public class GameController extends Activity implements SensorEventListener, Observer {
 
     GameModel gameModel;
     GameSurfaceView gameSurfaceView;
-
-    GameState gameState;
+    GameSoundController gameSoundController;
 
     private SensorManager mSensorManager;
     private Sensor mSensor;
@@ -72,15 +70,23 @@ public class GameController extends Activity implements SensorEventListener{
 
         gameModel = new GameModel(this, polygon);
         gameSurfaceView = new GameSurfaceView(this, polygon);
+        gameSoundController = new GameSoundController(this);
+
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         setContentView(gameSurfaceView);
+
+        BallStateObservable ballStateObservable = BallStateObservable.getInstance();
+        ballStateObservable.addObserver(this);
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
+        //TODO: onPause, onResume handler for elapsed time
         gameStartTime = SystemClock.elapsedRealtime();
     }
 
+    //TODO: on lock screen handler for saving the state of the game
     protected void onResume() {
         super.onResume();
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_GAME);
@@ -92,18 +98,43 @@ public class GameController extends Activity implements SensorEventListener{
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        gameSoundController.releaseSoundPool();
+        BallStateObservable.getInstance().deleteObserver(this);
+    }
+
+    @Override
     public void onSensorChanged(SensorEvent event) {
-        float[] sensorAcceleration = adjustAccelerationOrientation(windowManager.getDefaultDisplay().getRotation(), event.values);
-        switch (gameSurfaceView.update(sensorAcceleration, FRAME_RATE)) {
-            case WON:
-                gameWonAction();
-                break;
-            case LOST:
-                gameLostAction();
-                break;
-            case RUNNING:
-                gameState = GameState.RUNNING;
-                break;
+        final float[] sensorAcceleration = adjustAccelerationOrientation(windowManager.getDefaultDisplay().getRotation(), event.values);
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                gameSurfaceView.update(sensorAcceleration, FRAME_RATE);
+            }
+        });
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        if (observable instanceof BallStateObservable) {
+            BallStateObservable ballStateObservable = (BallStateObservable) observable;
+            switch (ballStateObservable.getBallState()) {
+                case COLLISION_BOX:
+                    gameSoundController.playBounceBoxSound();
+                    break;
+                case COLLISION_OBSTACLE:
+                    gameSoundController.playBounceObstacleSound();
+                    break;
+                case IN_BLACK_HOLE:
+                    gameLostAction();
+                    break;
+                case IN_WINNING_HOLE:
+                    gameWonAction();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -130,23 +161,31 @@ public class GameController extends Activity implements SensorEventListener{
     }
 
     private void gameWonAction() {
-        gameState = GameState.WON;
         mSensorManager.unregisterListener(this);
         gameEndTimeInSeconds = (SystemClock.elapsedRealtime() - gameStartTime) / 1000.0;
         gameEndTimeInSeconds = Math.round(gameEndTimeInSeconds * 100.0) / 100.0;
-        showInfo(getResources().getString(R.string.won_the_game));
-        showSaveDialog();
+        gameSoundController.playWinningSound();
+        this.runOnUiThread(new Runnable() {
+            public void run() {
+                showInfo(getResources().getString(R.string.won_the_game));
+                showSaveDialog();
+            }
+        });
     }
 
     private void gameLostAction() {
-        showInfo(getResources().getString(R.string.lost_the_game));
         mSensorManager.unregisterListener(this);
-        gameState = GameState.LOST;
+        gameSoundController.playLosingSound();
+        this.runOnUiThread(new Runnable() {
+            public void run() {
+                showInfo(getResources().getString(R.string.lost_the_game));
+            }
+        });
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if(gameState == GameState.LOST) {
+        if (BallStateObservable.getInstance().getBallState() == BallStateObservable.BallState.IN_BLACK_HOLE) {
             gameSurfaceView.setBallToStartingPosition();
             mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_GAME);
             gameStartTime = SystemClock.elapsedRealtime();
@@ -155,7 +194,7 @@ public class GameController extends Activity implements SensorEventListener{
     }
 
     private void showInfo(String info) {
-        Toast toast = Toast.makeText(getApplicationContext(), info, Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(this, info, Toast.LENGTH_LONG);
         toast.show();
     }
 

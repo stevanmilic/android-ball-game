@@ -2,20 +2,20 @@ package rs.etf.ms130329.ballgame.game.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.os.AsyncTask;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import rs.etf.ms130329.ballgame.engine.objects.BlackHole;
-import rs.etf.ms130329.ballgame.engine.objects.Box;
-import rs.etf.ms130329.ballgame.engine.objects.Hole;
 import rs.etf.ms130329.ballgame.engine.objects.Obstacle;
 import rs.etf.ms130329.ballgame.engine.objects.Polygon;
-import rs.etf.ms130329.ballgame.engine.physics.collision.BoxCollision;
+import rs.etf.ms130329.ballgame.engine.physics.collision.BoxBounceCollision;
 import rs.etf.ms130329.ballgame.engine.physics.collision.Collision;
-import rs.etf.ms130329.ballgame.engine.physics.collision.ObstacleCollision;
+import rs.etf.ms130329.ballgame.engine.physics.collision.ObstacleBounceCollision;
 import rs.etf.ms130329.ballgame.engine.physics.motion.Acceleration;
-import rs.etf.ms130329.ballgame.game.controller.GameController.GameState;
+import rs.etf.ms130329.ballgame.game.controller.BallStateObservable;
 
 /**
  * Created by stevan on 8/3/17.
@@ -42,46 +42,45 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         startWorkerThread();
     }
 
-    public GameState update(final float[] s, final float dT) {
+    public void update(float[] s, float dT) {
 
-        polygon.getWinningHole().setCollisionState(polygon.getBall());
-        if (polygon.getWinningHole().getCollisionState() != Hole.CollisionState.NONE) {
+        List<Collision> collisionList = new LinkedList<>();
+
+        polygon.getWinningHole().detectCollisions(collisionList, polygon.getBall());
+
+        if(!collisionList.isEmpty()){
             stopWorkerThread();
-            return GameState.WON;
-        } else {
-            for (BlackHole blackHole : polygon.getBlackHoles()) {
-                blackHole.setCollisionState(polygon.getBall());
-                if (blackHole.getCollisionState() != Hole.CollisionState.NONE) {
-                    stopWorkerThread();
-                    return GameState.LOST;
-                }
+            BallStateObservable.getInstance().setInWinningHole();
+            return;
+        }
+
+        for (BlackHole blackHole : polygon.getBlackHoles()) {
+            blackHole.detectCollisions(collisionList, polygon.getBall());
+            if (!collisionList.isEmpty()) {
+                stopWorkerThread();
+                BallStateObservable.getInstance().setInBlackHole();
+                return;
             }
         }
 
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                Acceleration acceleration = new Acceleration(-s[0], -s[1]);
-                Collision collision = null;
+        Acceleration acceleration = new Acceleration(-s[0], -s[1]);
 
-                polygon.getBox().setCollisionState(polygon.getBall());
-                if (polygon.getBox().getCollisionState() != Box.CollisionState.NONE) {
-                    collision = new BoxCollision(polygon.getCollisionFactor(), polygon.getBall(), polygon.getBox());
-                } else {
-                    for (Obstacle obstacle : polygon.getObstacles()) {
-                        obstacle.setCollisionState(polygon.getBall());
-                        if (obstacle.getCollisionState() != Obstacle.CollisionState.NONE) {
-                            collision = new ObstacleCollision(polygon.getCollisionFactor(), polygon.getBall(), obstacle);
-                            break;
-                        }
-                    }
-                }
+        polygon.getBox().detectCollisions(collisionList, polygon.getBall());
 
-                polygon.getBall().accelerate(acceleration, dT, polygon.getFrictionFactor(), collision);
+        for (Obstacle obstacle : polygon.getObstacles()) {
+            obstacle.detectCollisions(collisionList, polygon.getBall());
+        }
+
+        for(Collision collision : collisionList) {
+            if(collision instanceof BoxBounceCollision) {
+                BallStateObservable.getInstance().setCollisionBox(BoxBounceCollision.isBallGlued());
+            } else {
+                BallStateObservable.getInstance().setCollisionObstacle(ObstacleBounceCollision.isBallGlued());
             }
-        });
+        }
 
-        return GameState.RUNNING;
+        polygon.getBall().accelerate(acceleration, dT, collisionList,
+                polygon.getFrictionFactor(), polygon.getCollisionFactor());
     }
 
     public void doDraw(Canvas canvas) {
@@ -125,7 +124,6 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
             }
         }
     }
-
 
     private class WorkerThread extends Thread {
 

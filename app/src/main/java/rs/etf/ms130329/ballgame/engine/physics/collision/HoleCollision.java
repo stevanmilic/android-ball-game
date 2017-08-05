@@ -4,5 +4,5 @@ package rs.etf.ms130329.ballgame.engine.physics.collision;
  * Created by stevan on 8/5/17.
  */
 
-public class Collision {
+public class HoleCollision extends Collision {
 }

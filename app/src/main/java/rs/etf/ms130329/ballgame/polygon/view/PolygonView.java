@@ -3,7 +3,6 @@ package rs.etf.ms130329.ballgame.polygon.view;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
-import android.preference.PreferenceManager;
 import android.view.View;
 
 import rs.etf.ms130329.ballgame.R;
@@ -13,7 +12,6 @@ import rs.etf.ms130329.ballgame.engine.objects.Box;
 import rs.etf.ms130329.ballgame.engine.objects.Obstacle;
 import rs.etf.ms130329.ballgame.engine.objects.Polygon;
 import rs.etf.ms130329.ballgame.engine.objects.WinningHole;
-import rs.etf.ms130329.ballgame.settings.SettingsActivity;
 
 
 /**

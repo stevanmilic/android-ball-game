@@ -1,24 +1,18 @@
 package rs.etf.ms130329.ballgame.engine.objects;
 
 
+import java.util.List;
+
 import rs.etf.ms130329.ballgame.engine.drawables.Rectangle;
+import rs.etf.ms130329.ballgame.engine.physics.collision.Collision;
+import rs.etf.ms130329.ballgame.engine.physics.collision.ObstacleBounceCollision;
 import rs.etf.ms130329.ballgame.engine.physics.geometry.Point;
 
 /**
  * Created by stevan on 7/27/17.
  */
 
-public class Obstacle extends Rectangle {
-
-    public enum CollisionState {
-        EXISTS,
-        NONE;
-
-        public Point closest;
-        public float distanceSquared;
-    }
-
-    private CollisionState collisionState;
+public class Obstacle extends Rectangle implements Collidable{
 
     static final long serialVersionUID = 8L;
 
@@ -26,21 +20,13 @@ public class Obstacle extends Rectangle {
         super(color, x, y, width, height);
     }
 
-    public void setCollisionState(Ball ball) {
+    @Override
+    public void detectCollisions(List<Collision> collisionList, Ball ball) {
         Point closest = Point.clampPoint(ball.getPosition(), left, right, top, bottom);
         float distanceSquared = closest.getDistanceSquared(ball.getPosition());
 
         if (distanceSquared < ball.getRadius() * ball.getRadius()) {
-            collisionState = CollisionState.EXISTS;
-            collisionState.closest = closest;
-            collisionState.distanceSquared = distanceSquared;
-        } else {
-            collisionState = CollisionState.NONE;
+            collisionList.add(new ObstacleBounceCollision(closest, ball, distanceSquared));
         }
-
-    }
-
-    public CollisionState getCollisionState() {
-        return collisionState;
     }
 }

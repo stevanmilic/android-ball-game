@@ -1,6 +1,6 @@
 package rs.etf.ms130329.ballgame.engine.physics.motion;
 
-import rs.etf.ms130329.ballgame.engine.physics.collision.Collision;
+import rs.etf.ms130329.ballgame.engine.physics.collision.BounceCollision;
 import rs.etf.ms130329.ballgame.engine.physics.geometry.Point;
 import rs.etf.ms130329.ballgame.engine.physics.geometry.Vector;
 
@@ -27,11 +27,11 @@ public class Position extends Vector {
         pointY += velocity.getPointY() * dT + acceleration.getPointY() * dT * dT / 2;
     }
 
-    public void correction(Collision collision) {
+    public void correction(BounceCollision bounceCollision) {
         final float percent = 0.2f;
         final float slop = 0.01f;
 
-        Vector correction = Vector.multiply(collision.getNormal(), max(collision.getPenetration() - slop, 0.0f) * percent);
+        Vector correction = Vector.multiply(bounceCollision.getNormal(), max(bounceCollision.getPenetration() - slop, 0.0f) * percent);
 
         add(correction);
     }

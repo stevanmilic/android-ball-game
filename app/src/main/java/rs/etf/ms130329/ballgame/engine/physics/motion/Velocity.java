@@ -1,6 +1,6 @@
 package rs.etf.ms130329.ballgame.engine.physics.motion;
 
-import rs.etf.ms130329.ballgame.engine.physics.collision.Collision;
+import rs.etf.ms130329.ballgame.engine.physics.collision.BounceCollision;
 import rs.etf.ms130329.ballgame.engine.physics.geometry.Vector;
 
 /**
@@ -20,16 +20,16 @@ public class Velocity extends Vector {
         pointY = pointY + acceleration.getPointY() * dT * frictionFactor;
     }
 
-    public void changeDueToCollision(Collision collision) {
-        float velocityAlongNormal = dotProduct(collision.getNormal());
+    public void changeDueToCollision(BounceCollision bounceCollision, float collisionFactor) {
+        float velocityAlongNormal = dotProduct(bounceCollision.getNormal());
 
         if (velocityAlongNormal > 0) {
             return;
         }
 
-        float j = -(1 + collision.getCollisionFactor()) * velocityAlongNormal;
+        float j = -(1 + collisionFactor) * velocityAlongNormal;
 
-        Vector impulse = Vector.multiply(collision.getNormal(), j);
+        Vector impulse = Vector.multiply(bounceCollision.getNormal(), j);
 
         add(impulse);
     }

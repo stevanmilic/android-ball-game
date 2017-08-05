@@ -1,5 +1,7 @@
 package rs.etf.ms130329.ballgame.engine.physics.geometry;
 
+import android.annotation.SuppressLint;
+
 import static android.util.FloatMath.sqrt;
 
 /**
@@ -32,6 +34,7 @@ public class Vector extends Point {
         return new Vector(Math.signum(pointX), Math.signum(pointY));
     }
 
+    @SuppressLint("FloatMath")
     public float getMagnitude() {
         return sqrt(pointX*pointX + pointY*pointY);
     }
@@ -42,9 +45,9 @@ public class Vector extends Point {
         return new Vector(newPointX, newPointY);
     }
 
-    public static Vector subtract(Vector firstVector, Vector secondVector) {
-        float newPointX = firstVector.getPointX() - secondVector.getPointX();
-        float newPointY = firstVector.getPointY() - secondVector.getPointY();
+    public static Vector getVectorBetweenPoints(Point firstPoint, Point secondPoint) {
+        float newPointX = firstPoint.getPointX() - secondPoint.getPointX();
+        float newPointY = firstPoint.getPointY() - secondPoint.getPointY();
         return new Vector(newPointX, newPointY);
     }
 

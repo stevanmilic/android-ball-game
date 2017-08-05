@@ -124,17 +124,4 @@ public class Polygon extends Drawables {
         }
         return true;
     }
-
-//    @Override
-//    public void draw(@NonNull Canvas canvas) {
-//        box.draw(canvas);
-//        for (Obstacle obstacle : obstacles) {
-//            obstacle.draw(canvas);
-//        }
-//        for (BlackHole blackHole : blackHoles) {
-//            blackHole.draw(canvas);
-//        }
-//        winningHole.draw(canvas);
-//        ball.draw(canvas);
-//    }
 }
