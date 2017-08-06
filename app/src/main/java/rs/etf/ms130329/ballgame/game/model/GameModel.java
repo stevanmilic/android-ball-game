@@ -18,9 +18,10 @@ import rs.etf.ms130329.ballgame.settings.SettingsActivity;
 
 public class GameModel {
 
-    private ScoreDbHelper scoreDbHelper;
+    private Context context;
 
     public GameModel(Context context, Polygon polygon) {
+        this.context = context;
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -32,10 +33,12 @@ public class GameModel {
         polygon.setFrictionFactor(frictionFactor);
         polygon.setCollisionFactor(collisionFactor);
 
-        scoreDbHelper = new ScoreDbHelper(context);
     }
 
     public long insertScoreEntry(String polygonName, double time, String playerName) {
+
+        ScoreDbHelper scoreDbHelper = ScoreDbHelper.getInstance(context);
+
         SQLiteDatabase database = scoreDbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -47,5 +50,6 @@ public class GameModel {
 
         return rowId;
     }
+
 
 }

@@ -11,9 +11,11 @@ import rs.etf.ms130329.ballgame.database.ScoreContract.ScoreEntry;
  */
 
 public class ScoreDbHelper extends SQLiteOpenHelper {
+
+    private static ScoreDbHelper mInstance = null;
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 2;
-    public static final String DATABASE_NAME = "Score.db";
+    private static final int DATABASE_VERSION = 2;
+    private static final String DATABASE_NAME = "Score.db";
 
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + ScoreEntry.TABLE_NAME + "(" +
@@ -24,8 +26,22 @@ public class ScoreDbHelper extends SQLiteOpenHelper {
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + ScoreEntry.TABLE_NAME;
 
-    public ScoreDbHelper(Context context) {
+    private ScoreDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    public static ScoreDbHelper getInstance(Context context) {
+        if(mInstance == null) {
+            mInstance = new ScoreDbHelper(context);
+        }
+        return mInstance;
+    }
+
+    public static void closeInstance() {
+        if(mInstance != null) {
+            mInstance.close();
+            mInstance = null;
+        }
     }
 
     @Override

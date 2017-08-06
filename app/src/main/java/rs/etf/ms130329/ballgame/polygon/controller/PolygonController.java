@@ -2,11 +2,11 @@ package rs.etf.ms130329.ballgame.polygon.controller;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -58,29 +58,29 @@ public class PolygonController extends Activity {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             switch (state) {
                 case DRAW_BALL:
-                    if(polygonView.drawBall(x, y, polygonModel.getBallRadius())) {
-                        setDrawObstaclesState();
+                    if (polygonView.drawBall(x, y, polygonModel.getBallRadius())) {
+                        ballDrawAction();
                     } else {
                         showInfo(getResources().getString(R.string.invalid_draw));
                     }
                     break;
                 case DRAW_OBSTACLES:
-                    if(polygonView.drawObstacle(x, y, polygonModel.getObstacleWidth(), polygonModel.getObstacleHeight())) {
-                        setDrawBlackHolesState();
+                    if (polygonView.drawObstacle(x, y, polygonModel.getObstacleWidth(), polygonModel.getObstacleHeight())) {
+                        obstacleDrawAction();
                     } else {
                         showInfo(getResources().getString(R.string.invalid_draw));
                     }
                     break;
                 case DRAW_BLACK_HOLES:
-                    if(polygonView.drawBlackHole(x, y, polygonModel.getBlackHoleRadius())) {
-                        setDrawWinningHoleState();
+                    if (polygonView.drawBlackHole(x, y, polygonModel.getBlackHoleRadius())) {
+                        blackHoleDrawAction();
                     } else {
                         showInfo(getResources().getString(R.string.invalid_draw));
                     }
                     break;
                 case DRAW_WINNING_HOLE:
-                    if(polygonView.drawWinningHole(x, y, polygonModel.getWinningHoleRadius())) {
-                        setDrawDoneState();
+                    if (polygonView.drawWinningHole(x, y, polygonModel.getWinningHoleRadius())) {
+                        winningHoleDrawAction();
                     } else {
                         showInfo(getResources().getString(R.string.invalid_draw));
                     }
@@ -101,36 +101,58 @@ public class PolygonController extends Activity {
         State.noBlackHoles = polygonModel.getNoBlackHoles();
     }
 
-    private void setDrawObstaclesState() {
+    private void setDrawObstacleState() {
         state = State.DRAW_OBSTACLES;
         showInfo(getResources().getString(R.string.draw_obstacles));
     }
 
-    private void setDrawBlackHolesState() {
+    private void setDrawBlackHoleState() {
+        state = State.DRAW_BLACK_HOLES;
+        showInfo(getResources().getString(R.string.draw_black_holes));
+    }
+
+    private void setDrawWinningHoleState() {
+        state = State.DRAW_WINNING_HOLE;
+        showInfo(getResources().getString(R.string.draw_winning_hole));
+    }
+
+    private void ballDrawAction() {
+        if (State.noObstacles > 0) {
+            setDrawObstacleState();
+        } else if (State.noBlackHoles > 0) {
+            setDrawBlackHoleState();
+        } else {
+            setDrawWinningHoleState();
+        }
+    }
+
+    private void obstacleDrawAction() {
         State.noObstacles--;
         if (State.noObstacles == 0) {
-            state = State.DRAW_BLACK_HOLES;
-            showInfo(getResources().getString(R.string.draw_black_holes));
+            if (State.noBlackHoles > 0) {
+                setDrawBlackHoleState();
+            } else {
+                setDrawWinningHoleState();
+            }
         } else {
             showInfo(State.noObstacles + " " + getResources().getString(R.string.obstacles_left));
         }
 
     }
 
-    private void setDrawDoneState() {
-        state = State.DRAW_DONE;
-        showInfo(getResources().getString(R.string.save_polygon));
-    }
-
-    private void setDrawWinningHoleState() {
+    private void blackHoleDrawAction() {
         State.noBlackHoles--;
         if (State.noBlackHoles == 0) {
-            state = State.DRAW_WINNING_HOLE;
-            showInfo(getResources().getString(R.string.draw_winning_hole));
+            setDrawWinningHoleState();
         } else {
             showInfo(State.noBlackHoles + " " + getResources().getString(R.string.black_holes_left));
         }
 
+    }
+
+    private void winningHoleDrawAction() {
+        state = State.DRAW_DONE;
+        showInfo(getResources().getString(R.string.save_polygon));
     }
 
     private void showInfo(String info) {
@@ -140,29 +162,32 @@ public class PolygonController extends Activity {
 
     private void showSaveDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
         builder.setTitle(getResources().getString(R.string.save_polygon_dialog));
 
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setHint(R.string.input_polygon_name);
         builder.setView(input);
 
-        builder.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.save, null);
+
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
+                String polygonName = input.getText().toString();
+                if (polygonName.isEmpty()) {
+                    showInfo(getResources().getString(R.string.empty_input));
+                    return;
+                }
                 polygonView.getPolygon().setName(input.getText().toString());
                 polygonModel.exportPolygonToFile(polygonView.getPolygon());
                 finish();
             }
         });
-
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
     }
 
 }

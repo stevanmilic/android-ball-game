@@ -13,18 +13,20 @@ import static java.lang.Math.abs;
 
 public class ObstacleBounceCollision extends BounceCollision {
 
-    private static Point lastClosestPoint;
-    private static long lastClosestEncounterTime = 0;
+    private int obstacleId;
 
-    private static boolean ballGlued = false;
+    private static CollisionMap collisionMap;
 
-    public ObstacleBounceCollision(Point closest, Ball ball, float distanceSquared) {
+    public ObstacleBounceCollision(Point closest, Ball ball, float distanceSquared, int obstacleId) {
         super(closest, ball, distanceSquared);
 
-        ballGlued = isBallGlued(closest, lastClosestPoint, lastClosestEncounterTime);
+        this.obstacleId = obstacleId;
 
-        lastClosestPoint = closest;
-        lastClosestEncounterTime = SystemClock.elapsedRealtime();
+        if(collisionMap == null){
+            collisionMap = new CollisionMap();
+        }
+
+        collisionMap.newEncounter(closest, obstacleId);
 
         if(abs(normal.getPointX()) == 1 && abs(normal.getPointY()) == 1) {
             //edges
@@ -33,7 +35,7 @@ public class ObstacleBounceCollision extends BounceCollision {
         }
     }
 
-    public static boolean isBallGlued() {
-        return ballGlued;
+    public boolean isBallGlued() {
+        return collisionMap.isBallGlued(obstacleId);
     }
 }

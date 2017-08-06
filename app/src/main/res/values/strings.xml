@@ -33,4 +33,9 @@
     <string name="friction_factor_default">0.9</string>
     <string name="collision_factor_default">0.7</string>
     <string name="default_values">Reset to Default values</string>
+    <string name="empty_input">No name, Eh?</string>
+    <string name="input_polygon_name">Enter polygon name</string>
+    <string name="input_player_name">Enter your name</string>
+    <string name="delete">Delete</string>
+    <string name="delete_polygon_dialog">Delete Polygon</string>
 </resources>

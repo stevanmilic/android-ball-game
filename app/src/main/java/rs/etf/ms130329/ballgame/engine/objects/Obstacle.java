@@ -16,6 +16,9 @@ public class Obstacle extends Rectangle implements Collidable{
 
     static final long serialVersionUID = 8L;
 
+    private static int positionId = 0;
+    private int id = positionId++;
+
     public Obstacle(int color, float x, float y, float width, float height) {
         super(color, x, y, width, height);
     }
@@ -26,7 +29,7 @@ public class Obstacle extends Rectangle implements Collidable{
         float distanceSquared = closest.getDistanceSquared(ball.getPosition());
 
         if (distanceSquared < ball.getRadius() * ball.getRadius()) {
-            collisionList.add(new ObstacleBounceCollision(closest, ball, distanceSquared));
+            collisionList.add(new ObstacleBounceCollision(closest, ball, distanceSquared, id));
         }
     }
 }

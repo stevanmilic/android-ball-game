@@ -2,9 +2,7 @@ package rs.etf.ms130329.ballgame.game.controller;
 
 import android.content.Context;
 import android.media.AudioAttributes;
-import android.media.MediaPlayer;
 import android.media.SoundPool;
-import android.os.SystemClock;
 
 import rs.etf.ms130329.ballgame.R;
 
@@ -36,24 +34,19 @@ class GameSoundController {
 
     private int[] soundIds;
 
-    private int[] soundsDuration;
-    private long[] currentSoundsTime;
-    private static final float SOUND_PLAY_DELAY_FACTOR = 0.5f;
-
-
     GameSoundController(Context context) {
 
-        AudioAttributes audioAttributes = new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_GAME)
-                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build();
-        soundPool = new SoundPool.Builder().setMaxStreams(SOUND_POOL_MAX_STREAMS).setAudioAttributes(audioAttributes).build();
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
+
+        soundPool = new SoundPool.Builder()
+                .setMaxStreams(SOUND_POOL_MAX_STREAMS)
+                .setAudioAttributes(audioAttributes)
+                .build();
 
         soundIds = new int[SOUND_POOL_MAX_STREAMS];
-//        soundsDuration = new int[SOUND_POOL_MAX_STREAMS];
-//        currentSoundsTime = new long[SOUND_POOL_MAX_STREAMS];
-
-//        for (int i = 0; i < currentSoundsTime.length; i++) {
-//            currentSoundsTime[i] = SystemClock.elapsedRealtime();
-//        }
 
         loadSound(BOUNCE_BOX_SOUND_ID, context, R.raw.bounce_box);
         loadSound(BOUNCE_OBSTACLE_SOUND_ID, context, R.raw.bounce_obstacle);
@@ -83,18 +76,6 @@ class GameSoundController {
     }
 
     private void loadSound(int soundId, Context context, int resId) {
-//        soundsDuration[soundId] = getSoundDuration(context, resId);
         soundIds[soundId] = soundPool.load(context, resId, 1);
-    }
-
-    private int getSoundDuration(Context context, int resId) {
-        MediaPlayer player = MediaPlayer.create(context, resId);
-        int duration = player.getDuration();
-        player.release();
-        return duration;
-    }
-
-    private boolean isPlaying(int soundId, int duration) {
-        return duration <= soundsDuration[soundId] * SOUND_PLAY_DELAY_FACTOR;
     }
 }

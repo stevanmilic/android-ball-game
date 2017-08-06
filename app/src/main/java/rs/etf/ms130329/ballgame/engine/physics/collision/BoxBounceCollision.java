@@ -1,7 +1,5 @@
 package rs.etf.ms130329.ballgame.engine.physics.collision;
 
-import android.os.SystemClock;
-
 import rs.etf.ms130329.ballgame.engine.objects.Ball;
 import rs.etf.ms130329.ballgame.engine.physics.geometry.Point;
 
@@ -11,21 +9,24 @@ import rs.etf.ms130329.ballgame.engine.physics.geometry.Point;
 
 public class BoxBounceCollision extends BounceCollision {
 
-    private static Point lastClosestPoint;
-    private static long lastClosestEncounterTime = 0;
+    private int boundId;
 
-    private static boolean ballGlued = false;
+    private static CollisionMap collisionMap;
 
-    public BoxBounceCollision(Point closest, Ball ball, float distanceSquared) {
+    public BoxBounceCollision(Point closest, Ball ball, float distanceSquared, int boundId) {
         super(closest, ball, distanceSquared);
 
-        ballGlued = isBallGlued(closest, lastClosestPoint, lastClosestEncounterTime);
+        this.boundId = boundId;
 
-        lastClosestPoint = closest;
-        lastClosestEncounterTime = SystemClock.elapsedRealtime();
+        if(collisionMap == null) {
+            collisionMap = new CollisionMap();
+        }
+
+        collisionMap.newEncounter(closest, boundId);
     }
 
-    public static boolean isBallGlued() {
-        return ballGlued;
+    public boolean isBallGlued() {
+        return collisionMap.isBallGlued(boundId);
     }
+
 }

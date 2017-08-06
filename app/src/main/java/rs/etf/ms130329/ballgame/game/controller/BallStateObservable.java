@@ -15,30 +15,30 @@ public class BallStateObservable extends Observable {
         COLLISION_OBSTACLE
     }
 
-    private static BallStateObservable INSTANCE = null;
+    private static BallStateObservable mInstance = null;
 
     private volatile BallState ballState;
 
     public static BallStateObservable getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new BallStateObservable();
+        if (mInstance == null) {
+            mInstance = new BallStateObservable();
         }
-        return INSTANCE;
+        return mInstance;
     }
 
-    public void setInBlackHole() {
+    public void setInBlackHoleState() {
         ballState = BallState.IN_BLACK_HOLE;
         setChanged();
         notifyObservers();
     }
 
-    public void setInWinningHole() {
+    public void setInWinningHoleState() {
         ballState = BallState.IN_WINNING_HOLE;
         setChanged();
         notifyObservers();
     }
 
-    public void setCollisionBox(boolean ballGlued) {
+    public void setCollisionBoxState(boolean ballGlued) {
         if (!ballGlued) {
             ballState = BallState.COLLISION_BOX;
             setChanged();
@@ -46,7 +46,7 @@ public class BallStateObservable extends Observable {
         }
     }
 
-    public void setCollisionObstacle(boolean ballGlued) {
+    public void setCollisionObstacleState(boolean ballGlued) {
         if (!ballGlued) {
             ballState = BallState.COLLISION_OBSTACLE;
             setChanged();

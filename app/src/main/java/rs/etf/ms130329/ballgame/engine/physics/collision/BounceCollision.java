@@ -1,7 +1,6 @@
 package rs.etf.ms130329.ballgame.engine.physics.collision;
 
 import android.annotation.SuppressLint;
-import android.os.SystemClock;
 
 import rs.etf.ms130329.ballgame.engine.objects.Ball;
 import rs.etf.ms130329.ballgame.engine.physics.geometry.Point;
@@ -18,11 +17,6 @@ public class BounceCollision extends Collision {
     Vector normal;
     private float penetration;
 
-    //TODO: Should be set from GameController(GAME_DELAY)
-    private static final long DELAY = 200;
-
-    private static final String TAG = "BounceCollision";
-
     @SuppressLint("FloatMath")
     BounceCollision(Point closest, Ball ball, float distanceSquared) {
         normal = Vector.getVectorBetweenPoints(ball.getPosition(), closest).getUnitVector();
@@ -35,17 +29,6 @@ public class BounceCollision extends Collision {
 
     public float getPenetration() {
         return penetration;
-    }
-
-    boolean isBallGlued(Point closest, Point lastClosestPoint, long lastClosestEncounterTime) {
-        if (lastClosestPoint != null && (lastClosestPoint.getPointX() == closest.getPointX()
-                || lastClosestPoint.getPointY() == closest.getPointY())) {
-            long lastClosestEncounter = SystemClock.elapsedRealtime() - lastClosestEncounterTime;
-            return lastClosestEncounter <= DELAY;
-        } else {
-            return false;
-        }
-
     }
 
 }

@@ -3,7 +3,6 @@ package rs.etf.ms130329.ballgame.game.controller;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.hardware.Sensor;
@@ -13,9 +12,9 @@ import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.text.InputType;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -37,6 +36,8 @@ public class GameController extends Activity implements SensorEventListener, Obs
     GameSurfaceView gameSurfaceView;
     GameSoundController gameSoundController;
 
+    Stopwatch stopwatch;
+
     private SensorManager mSensorManager;
     private Sensor mSensor;
 
@@ -44,12 +45,10 @@ public class GameController extends Activity implements SensorEventListener, Obs
 
     private static final float FRAME_RATE = 0.35f;
 
-    private static final String TAG = "GameController";
-
-    private long gameStartTime;
-    private double gameEndTimeInSeconds;
-
     public static final String STATISTICS_PARAMETER_KEY = "polygon_name";
+
+    public static final String GAME_POLYGON_PARAMETER_KEY = "game_polygon";
+    public static final String GAME_STOPWATCH_PARAMETER_KEY = "game_stopwatch";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,19 +81,49 @@ public class GameController extends Activity implements SensorEventListener, Obs
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-        //TODO: onPause, onResume handler for elapsed time
-        gameStartTime = SystemClock.elapsedRealtime();
+        stopwatch = new Stopwatch();
+        stopwatch.start();
     }
 
-    //TODO: on lock screen handler for saving the state of the game
     protected void onResume() {
         super.onResume();
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_GAME);
+        if (gameSurfaceView != null) {
+            gameSurfaceView.startWorkerThread();
+        }
+        stopwatch.resume();
     }
 
     protected void onPause() {
         super.onPause();
         mSensorManager.unregisterListener(this);
+        if (gameSurfaceView != null) {
+            gameSurfaceView.stopWorkerThread();
+        }
+        stopwatch.pause();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putSerializable(GAME_POLYGON_PARAMETER_KEY, gameSurfaceView.getPolygon());
+
+        stopwatch.pause();
+        outState.putSerializable(GAME_STOPWATCH_PARAMETER_KEY, stopwatch);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        Polygon polygon = (Polygon) savedInstanceState.get(GAME_POLYGON_PARAMETER_KEY);
+        gameSurfaceView.setPolygon(polygon);
+
+        stopwatch = (Stopwatch) savedInstanceState.get(GAME_STOPWATCH_PARAMETER_KEY);
+        if (stopwatch != null) {
+            stopwatch.resume();
+        }
     }
 
     @Override
@@ -162,8 +191,7 @@ public class GameController extends Activity implements SensorEventListener, Obs
 
     private void gameWonAction() {
         mSensorManager.unregisterListener(this);
-        gameEndTimeInSeconds = (SystemClock.elapsedRealtime() - gameStartTime) / 1000.0;
-        gameEndTimeInSeconds = Math.round(gameEndTimeInSeconds * 100.0) / 100.0;
+        stopwatch.stop();
         gameSoundController.playWinningSound();
         this.runOnUiThread(new Runnable() {
             public void run() {
@@ -176,6 +204,7 @@ public class GameController extends Activity implements SensorEventListener, Obs
     private void gameLostAction() {
         mSensorManager.unregisterListener(this);
         gameSoundController.playLosingSound();
+        stopwatch.stop();
         this.runOnUiThread(new Runnable() {
             public void run() {
                 showInfo(getResources().getString(R.string.lost_the_game));
@@ -188,7 +217,7 @@ public class GameController extends Activity implements SensorEventListener, Obs
         if (BallStateObservable.getInstance().getBallState() == BallStateObservable.BallState.IN_BLACK_HOLE) {
             gameSurfaceView.setBallToStartingPosition();
             mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_GAME);
-            gameStartTime = SystemClock.elapsedRealtime();
+            stopwatch.start();
         }
         return true;
     }
@@ -200,30 +229,36 @@ public class GameController extends Activity implements SensorEventListener, Obs
 
     private void showSaveDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
         builder.setTitle(getResources().getString(R.string.save_score_dialog));
 
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setHint(R.string.input_player_name);
         builder.setView(input);
 
-        builder.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.save, null);
+
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                gameModel.insertScoreEntry(gameSurfaceView.getPolygonName(), gameEndTimeInSeconds, input.getText().toString());
+            public void onClick(View v) {
+                String playerName = input.getText().toString();
+                if (playerName.isEmpty()) {
+                    showInfo(getResources().getString(R.string.empty_input));
+                    return;
+                }
+                gameModel.insertScoreEntry(gameSurfaceView.getPolygonName(), stopwatch.getElapsedTimeInSeconds(),
+                        input.getText().toString());
                 Intent intent = new Intent(getApplicationContext(), StatisticsActivity.class);
                 intent.putExtra(STATISTICS_PARAMETER_KEY, gameSurfaceView.getPolygonName());
                 finish();
                 startActivity(intent);
+                dialog.dismiss();
             }
         });
 
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
     }
 }

@@ -16,7 +16,7 @@ public class StatisticsModel {
     private ScoreDbHelper scoreDbHelper;
 
     public StatisticsModel(Context context) {
-        scoreDbHelper = new ScoreDbHelper(context);
+        scoreDbHelper = ScoreDbHelper.getInstance(context);
     }
 
     public Cursor getPolygonCursor() {

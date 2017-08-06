@@ -33,6 +33,14 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         getHolder().addCallback(this);
     }
 
+    public Polygon getPolygon() {
+        return polygon;
+    }
+
+    public void setPolygon(Polygon polygon) {
+        this.polygon = polygon;
+    }
+
     public String getPolygonName() {
         return polygon.getName();
     }
@@ -50,7 +58,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
         if(!collisionList.isEmpty()){
             stopWorkerThread();
-            BallStateObservable.getInstance().setInWinningHole();
+            BallStateObservable.getInstance().setInWinningHoleState();
             return;
         }
 
@@ -58,7 +66,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
             blackHole.detectCollisions(collisionList, polygon.getBall());
             if (!collisionList.isEmpty()) {
                 stopWorkerThread();
-                BallStateObservable.getInstance().setInBlackHole();
+                BallStateObservable.getInstance().setInBlackHoleState();
                 return;
             }
         }
@@ -73,9 +81,11 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
         for(Collision collision : collisionList) {
             if(collision instanceof BoxBounceCollision) {
-                BallStateObservable.getInstance().setCollisionBox(BoxBounceCollision.isBallGlued());
+                BoxBounceCollision boxBounceCollision = (BoxBounceCollision) collision;
+                BallStateObservable.getInstance().setCollisionBoxState(boxBounceCollision.isBallGlued());
             } else {
-                BallStateObservable.getInstance().setCollisionObstacle(ObstacleBounceCollision.isBallGlued());
+                ObstacleBounceCollision obstacleBounceCollision = (ObstacleBounceCollision) collision;
+                BallStateObservable.getInstance().setCollisionObstacleState(obstacleBounceCollision.isBallGlued());
             }
         }
 
@@ -102,7 +112,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         stopWorkerThread();
     }
 
-    private void startWorkerThread() {
+    public void startWorkerThread() {
         if(workerThread == null || !workerThread.isRunning()) {
             workerThread = new WorkerThread(getHolder());
             workerThread.setRunning(true);
@@ -110,7 +120,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         }
     }
 
-    private void stopWorkerThread() {
+    public void stopWorkerThread() {
         if(workerThread != null && workerThread.isRunning()) {
             boolean retry = true;
             workerThread.setRunning(false);

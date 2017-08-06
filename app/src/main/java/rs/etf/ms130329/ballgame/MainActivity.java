@@ -1,6 +1,8 @@
 package rs.etf.ms130329.ballgame;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -12,16 +14,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import rs.etf.ms130329.ballgame.database.ScoreDbHelper;
 import rs.etf.ms130329.ballgame.game.controller.GameController;
 import rs.etf.ms130329.ballgame.polygon.controller.PolygonController;
 import rs.etf.ms130329.ballgame.polygon.model.PolygonModel;
 import rs.etf.ms130329.ballgame.engine.objects.Polygon;
 import rs.etf.ms130329.ballgame.settings.SettingsActivity;
 import rs.etf.ms130329.ballgame.statistics.controller.StatisticsActivity;
+import rs.etf.ms130329.ballgame.statistics.model.StatisticsModel;
 
 public class MainActivity extends Activity implements AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener{
 
     PolygonModel polygonModel;
+    StatisticsModel statisticsModel;
     public static final String GAME_PARAMETER_KEY = "polygon";
 
     @Override
@@ -33,6 +38,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemLongClic
         setContentView(R.layout.activity_ball_game);
 
         polygonModel = new PolygonModel(this);
+        statisticsModel = new StatisticsModel(this);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,
                 polygonModel.getAllPolygons());
@@ -51,6 +57,12 @@ public class MainActivity extends Activity implements AdapterView.OnItemLongClic
         adapter.clear();
         adapter.addAll(polygonModel.getAllPolygons());
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onDestroy() {
+        ScoreDbHelper.closeInstance();
+        super.onDestroy();
     }
 
     @Override
@@ -91,12 +103,33 @@ public class MainActivity extends Activity implements AdapterView.OnItemLongClic
     }
 
     @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        ArrayAdapter<String> arrayAdapter = (ArrayAdapter<String>) parent.getAdapter();
-        String polygonName = arrayAdapter.getItem(position);
-        polygonModel.deletePolygon(polygonName);
-        arrayAdapter.remove(polygonName);
-        arrayAdapter.notifyDataSetChanged();
+    public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle(R.string.delete_polygon_dialog);
+
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ArrayAdapter<String> arrayAdapter = (ArrayAdapter<String>) parent.getAdapter();
+                String polygonName = arrayAdapter.getItem(position);
+                polygonModel.deletePolygon(polygonName);
+                statisticsModel.deletePolygonStatistics(polygonName);
+                arrayAdapter.remove(polygonName);
+                arrayAdapter.notifyDataSetChanged();
+            }
+        });
+
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.show();
+
         return true;
     }
 }
