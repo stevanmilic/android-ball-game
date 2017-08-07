@@ -26,11 +26,27 @@ public class Polygon extends Drawables {
 
     private List<Collidable> collidables = new LinkedList<>();
 
-    private float frictionFactor;
-    private float collisionFactor;
+    private static float frictionFactor;
+    private static float collisionFactor;
 
     public Ball getBall() {
         return ball;
+    }
+
+    public static float getFrictionFactor() {
+        return frictionFactor;
+    }
+
+    public static void setFrictionFactor(float frictionFactor) {
+        Polygon.frictionFactor = frictionFactor;
+    }
+
+    public static float getCollisionFactor() {
+        return collisionFactor;
+    }
+
+    public static void setCollisionFactor(float collisionFactor) {
+        Polygon.collisionFactor = collisionFactor;
     }
 
     public String getName() {
@@ -96,22 +112,6 @@ public class Polygon extends Drawables {
     public void setBox(Box box) {
         this.box = box;
         drawables.add(box);
-    }
-
-    public float getFrictionFactor() {
-        return frictionFactor;
-    }
-
-    public void setFrictionFactor(float frictionFactor) {
-        this.frictionFactor = frictionFactor;
-    }
-
-    public float getCollisionFactor() {
-        return collisionFactor;
-    }
-
-    public void setCollisionFactor(float collisionFactor) {
-        this.collisionFactor = collisionFactor;
     }
 
     private boolean isPositionValid(Figure newFigure) {

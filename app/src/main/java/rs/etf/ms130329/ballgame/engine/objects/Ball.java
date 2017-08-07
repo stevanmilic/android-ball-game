@@ -43,18 +43,17 @@ public class Ball extends Circle {
         return velocity;
     }
 
-    public void accelerate(Acceleration acceleration, float dT, float frictionFactor, float collisionFactor,
-                           Collision collision) {
+    public void accelerate(Acceleration acceleration, float dT, List<Collision> collisionList) {
 
-        velocity.changeDueToAcceleration(acceleration, dT, frictionFactor);
+        velocity.changeDueToAcceleration(acceleration, dT, Polygon.getFrictionFactor());
 
-        if(collision != null) {
-            velocity.changeDueToCollision((BounceCollision) collision, collisionFactor);
+        for (Collision collision : collisionList) {
+            velocity.changeDueToCollision((BounceCollision) collision, Polygon.getCollisionFactor());
         }
 
         position.verletIntegration(velocity, acceleration, dT);
 
-        if(collision != null) {
+        for (Collision collision : collisionList) {
             position.correction((BounceCollision) collision);
         }
 

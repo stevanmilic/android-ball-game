@@ -1,10 +1,10 @@
 package rs.etf.ms130329.ballgame.settings;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,7 +15,7 @@ import rs.etf.ms130329.ballgame.R;
  * Created by stevan on 8/4/17.
  */
 
-public class SettingsActivity extends Activity {
+public class SettingsActivity extends AppCompatActivity {
 
     public static final String KEY_PREF_BALL_RADIUS = "pref_ballRadius";
     public static final String KEY_PREF_OBSTACLE_WIDTH = "pref_obstacleWidth";

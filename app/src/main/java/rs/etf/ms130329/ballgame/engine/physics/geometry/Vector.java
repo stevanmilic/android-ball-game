@@ -1,8 +1,6 @@
 package rs.etf.ms130329.ballgame.engine.physics.geometry;
 
-import android.annotation.SuppressLint;
-
-import static android.util.FloatMath.sqrt;
+import static java.lang.Math.sqrt;
 
 /**
  * Created by stevan on 7/31/17.
@@ -34,9 +32,8 @@ public class Vector extends Point {
         return new Vector(Math.signum(pointX), Math.signum(pointY));
     }
 
-    @SuppressLint("FloatMath")
     public float getMagnitude() {
-        return sqrt(pointX*pointX + pointY*pointY);
+        return (float) sqrt(pointX*pointX + pointY*pointY);
     }
 
     public static Vector add(Vector firstVector, Vector secondVector) {

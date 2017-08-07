@@ -2,7 +2,6 @@ package rs.etf.ms130329.ballgame.engine.physics.collision;
 
 import rs.etf.ms130329.ballgame.engine.objects.Ball;
 import rs.etf.ms130329.ballgame.engine.physics.geometry.Point;
-import rs.etf.ms130329.ballgame.engine.physics.motion.Acceleration;
 import rs.etf.ms130329.ballgame.game.controller.BallStateObservable;
 
 /**
@@ -28,8 +27,10 @@ public class BoxBounceCollision extends BounceCollision {
     }
 
     @Override
-    public void resolve(Ball ball, Acceleration acceleration, float dT, float frictionFactor, float collisionFactor) {
-        BallStateObservable.getInstance().setCollisionBoxState(collisionMap.isBallGlued(boundId));
-        ball.accelerate(acceleration, dT, frictionFactor, collisionFactor, this);
+    public void resolve(BallStateObservable ballState) {
+        if(!collisionMap.isBallGlued(boundId)) {
+            ballState.setCollisionBoxState();
+        }
+        ballState.setRunningState();
     }
 }

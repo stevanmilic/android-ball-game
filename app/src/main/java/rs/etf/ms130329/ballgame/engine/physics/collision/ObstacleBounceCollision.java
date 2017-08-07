@@ -1,12 +1,7 @@
 package rs.etf.ms130329.ballgame.engine.physics.collision;
 
-import android.os.SystemClock;
-
 import rs.etf.ms130329.ballgame.engine.objects.Ball;
 import rs.etf.ms130329.ballgame.engine.physics.geometry.Point;
-import rs.etf.ms130329.ballgame.engine.physics.motion.Acceleration;
-import rs.etf.ms130329.ballgame.engine.physics.motion.Position;
-import rs.etf.ms130329.ballgame.engine.physics.motion.Velocity;
 import rs.etf.ms130329.ballgame.game.controller.BallStateObservable;
 
 import static java.lang.Math.abs;
@@ -40,9 +35,10 @@ public class ObstacleBounceCollision extends BounceCollision {
     }
 
     @Override
-    public void resolve(Ball ball, Acceleration acceleration, float dT, float frictionFactor, float collisionFactor) {
-        BallStateObservable.getInstance().setCollisionObstacleState(collisionMap.isBallGlued(obstacleId));
-        ball.accelerate(acceleration, dT, frictionFactor, collisionFactor, this);
+    public void resolve(BallStateObservable ballState) {
+        if(!collisionMap.isBallGlued(obstacleId)) {
+            ballState.setCollisionObstacleState();
+        }
+        ballState.setRunningState();
     }
-
 }

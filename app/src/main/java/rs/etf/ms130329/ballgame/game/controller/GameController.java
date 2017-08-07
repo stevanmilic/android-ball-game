@@ -67,7 +67,7 @@ public class GameController extends Activity implements SensorEventListener, Obs
 
         Polygon polygon = (Polygon) extras.get(MainActivity.GAME_PARAMETER_KEY);
 
-        gameModel = new GameModel(this, polygon);
+        gameModel = new GameModel(this);
         gameSurfaceView = new GameSurfaceView(this, polygon);
         gameSoundController = new GameSoundController(this);
 
@@ -75,7 +75,9 @@ public class GameController extends Activity implements SensorEventListener, Obs
 
         setContentView(gameSurfaceView);
 
-        BallStateObservable.getInstance().addObserver(this);
+        BallStateObservable ballStateObservable = BallStateObservable.getInstance();
+        ballStateObservable.addObserver(this);
+        ballStateObservable.setRunningState();
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -251,13 +253,12 @@ public class GameController extends Activity implements SensorEventListener, Obs
                     showInfo(getResources().getString(R.string.empty_input));
                     return;
                 }
-                gameModel.insertScoreEntry(gameSurfaceView.getPolygonName(), stopwatch.getElapsedTimeInSeconds(),
-                        input.getText().toString());
+                gameModel.insertScoreEntry(gameSurfaceView.getPolygonName(), stopwatch.getElapsedTimeInSeconds(), playerName);
                 Intent intent = new Intent(getApplicationContext(), StatisticsActivity.class);
                 intent.putExtra(STATISTICS_PARAMETER_KEY, gameSurfaceView.getPolygonName());
+                dialog.dismiss();
                 finish();
                 startActivity(intent);
-                dialog.dismiss();
             }
         });
 

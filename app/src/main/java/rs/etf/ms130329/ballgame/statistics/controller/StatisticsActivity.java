@@ -1,10 +1,10 @@
 package rs.etf.ms130329.ballgame.statistics.controller;
 
-import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,7 +18,7 @@ import rs.etf.ms130329.ballgame.database.ScoreContract.ScoreEntry;
 import rs.etf.ms130329.ballgame.game.controller.GameController;
 import rs.etf.ms130329.ballgame.statistics.model.StatisticsModel;
 
-public class StatisticsActivity extends Activity implements AdapterView.OnItemClickListener{
+public class StatisticsActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
 
     private enum StatisticsState {
         POLYGON_LIST,

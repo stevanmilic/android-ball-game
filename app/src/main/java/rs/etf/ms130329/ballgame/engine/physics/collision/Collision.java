@@ -1,7 +1,6 @@
 package rs.etf.ms130329.ballgame.engine.physics.collision;
 
-import rs.etf.ms130329.ballgame.engine.objects.Ball;
-import rs.etf.ms130329.ballgame.engine.physics.motion.Acceleration;
+import rs.etf.ms130329.ballgame.game.controller.BallStateObservable;
 
 /**
  * Created by stevan on 8/5/17.
@@ -9,5 +8,5 @@ import rs.etf.ms130329.ballgame.engine.physics.motion.Acceleration;
 
 public interface Collision {
 
-    void resolve(Ball ball, Acceleration acceleration, float dT, float frictionFactor, float collisionFactor);
+    void resolve(BallStateObservable ballState);
 }

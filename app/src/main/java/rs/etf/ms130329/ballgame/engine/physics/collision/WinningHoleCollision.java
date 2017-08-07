@@ -1,7 +1,5 @@
 package rs.etf.ms130329.ballgame.engine.physics.collision;
 
-import rs.etf.ms130329.ballgame.engine.objects.Ball;
-import rs.etf.ms130329.ballgame.engine.physics.motion.Acceleration;
 import rs.etf.ms130329.ballgame.game.controller.BallStateObservable;
 
 /**
@@ -11,7 +9,7 @@ import rs.etf.ms130329.ballgame.game.controller.BallStateObservable;
 public class WinningHoleCollision extends HoleCollision {
 
     @Override
-    public void resolve(Ball ball, Acceleration acceleration, float dT, float frictionFactor, float collisionFactor) {
-        BallStateObservable.getInstance().setInWinningHoleState();
+    public void resolve(BallStateObservable ballState) {
+        ballState.setInWinningHoleState();
     }
 }

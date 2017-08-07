@@ -5,10 +5,6 @@ import android.support.annotation.NonNull;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.util.LinkedList;
-import java.util.List;
-
-import rs.etf.ms130329.ballgame.engine.physics.geometry.Point;
 
 /**
  * Created by stevan on 7/27/17.

@@ -12,6 +12,7 @@ import rs.etf.ms130329.ballgame.engine.objects.Collidable;
 import rs.etf.ms130329.ballgame.engine.objects.Polygon;
 import rs.etf.ms130329.ballgame.engine.physics.collision.Collision;
 import rs.etf.ms130329.ballgame.engine.physics.motion.Acceleration;
+import rs.etf.ms130329.ballgame.game.controller.BallStateObservable;
 
 /**
  * Created by stevan on 8/3/17.
@@ -43,26 +44,29 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
     public void setBallToStartingPosition() {
         polygon.getBall().resetPosition();
+        BallStateObservable.getInstance().setRunningState();
         startWorkerThread();
     }
 
     public void update(float[] s, float dT) {
         List<Collision> collisionList = new LinkedList<>();
 
-        for(Collidable collidable : polygon.getCollidablesObjects()) {
-           collidable.detectCollisions(collisionList, polygon.getBall());
+        for (Collidable collidable : polygon.getCollidablesObjects()) {
+            collidable.detectCollisions(collisionList, polygon.getBall());
         }
 
         Acceleration acceleration = new Acceleration(-s[0], -s[1]);
 
-        for(Collision collision : collisionList) {
-            collision.resolve(polygon.getBall(), acceleration, dT, polygon.getFrictionFactor(), polygon.getCollisionFactor());
+        BallStateObservable ballStateObservable = BallStateObservable.getInstance();
+
+        for (Collision collision : collisionList) {
+            collision.resolve(ballStateObservable);
         }
 
-        if(collisionList.isEmpty()) {
-            polygon.getBall().accelerate(acceleration, dT, polygon.getFrictionFactor(), polygon.getCollisionFactor(),
-                    null);
+        if (ballStateObservable.getBallState() == BallStateObservable.BallState.RUNNING) {
+            polygon.getBall().accelerate(acceleration, dT, collisionList);
         }
+
     }
 
     public void doDraw(Canvas canvas) {
@@ -85,7 +89,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     }
 
     public void startWorkerThread() {
-        if(workerThread == null || !workerThread.isRunning()) {
+        if (workerThread == null || !workerThread.isRunning()) {
             workerThread = new WorkerThread(getHolder());
             workerThread.setRunning(true);
             workerThread.start();
@@ -93,7 +97,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     }
 
     public void stopWorkerThread() {
-        if(workerThread != null && workerThread.isRunning()) {
+        if (workerThread != null && workerThread.isRunning()) {
             boolean retry = true;
             workerThread.setRunning(false);
             while (retry) {

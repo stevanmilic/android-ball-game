@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 
 import rs.etf.ms130329.ballgame.R;
-import rs.etf.ms130329.ballgame.database.ScoreContract.*;
+import rs.etf.ms130329.ballgame.database.ScoreContract.ScoreEntry;
 import rs.etf.ms130329.ballgame.database.ScoreDbHelper;
 import rs.etf.ms130329.ballgame.engine.objects.Polygon;
 import rs.etf.ms130329.ballgame.settings.SettingsActivity;
@@ -20,7 +20,7 @@ public class GameModel {
 
     private Context context;
 
-    public GameModel(Context context, Polygon polygon) {
+    public GameModel(Context context) {
         this.context = context;
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -30,8 +30,8 @@ public class GameModel {
         float collisionFactor = Float.parseFloat(sharedPreferences.getString(SettingsActivity.KEY_PREF_COLLISION_FACTOR,
                 context.getResources().getString(R.string.collision_factor_default)));
 
-        polygon.setFrictionFactor(frictionFactor);
-        polygon.setCollisionFactor(collisionFactor);
+        Polygon.setFrictionFactor(frictionFactor);
+        Polygon.setCollisionFactor(collisionFactor);
 
     }
 

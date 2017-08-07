@@ -1,11 +1,9 @@
 package rs.etf.ms130329.ballgame.engine.physics.geometry;
 
-import android.annotation.SuppressLint;
-
 import java.io.Serializable;
 
-import static android.util.FloatMath.pow;
-import static android.util.FloatMath.sqrt;
+import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
 
 /**
  * Created by stevan on 7/31/17.
@@ -39,13 +37,12 @@ public class Point implements Serializable {
         this.pointY = pointY;
     }
 
-    @SuppressLint("FloatMath")
     public float getDistance(Point point) {
-        return sqrt(getDistanceSquared(point));
+        return (float) sqrt(getDistanceSquared(point));
     }
 
     public float getDistanceSquared(Point point) {
-       return pow(point.pointX - pointX, 2) + pow(point.pointY - pointY, 2);
+       return (float) (pow(point.pointX - pointX, 2) + pow(point.pointY - pointY, 2));
     }
 
     @Override

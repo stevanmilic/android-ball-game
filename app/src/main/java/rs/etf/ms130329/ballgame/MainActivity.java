@@ -1,11 +1,11 @@
 package rs.etf.ms130329.ballgame;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,15 +15,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import rs.etf.ms130329.ballgame.database.ScoreDbHelper;
+import rs.etf.ms130329.ballgame.engine.objects.Polygon;
 import rs.etf.ms130329.ballgame.game.controller.GameController;
 import rs.etf.ms130329.ballgame.polygon.controller.PolygonController;
 import rs.etf.ms130329.ballgame.polygon.model.PolygonModel;
-import rs.etf.ms130329.ballgame.engine.objects.Polygon;
 import rs.etf.ms130329.ballgame.settings.SettingsActivity;
 import rs.etf.ms130329.ballgame.statistics.controller.StatisticsActivity;
 import rs.etf.ms130329.ballgame.statistics.model.StatisticsModel;
 
-public class MainActivity extends Activity implements AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener{
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemLongClickListener, AdapterView
+        .OnItemClickListener {
 
     PolygonModel polygonModel;
     StatisticsModel statisticsModel;
@@ -47,6 +48,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemLongClic
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
         listView.setOnItemLongClickListener(this);
+
     }
 
     @Override
@@ -75,7 +77,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemLongClic
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.new_polygon:
                 intent = new Intent(this, PolygonController.class);
                 startActivity(intent);

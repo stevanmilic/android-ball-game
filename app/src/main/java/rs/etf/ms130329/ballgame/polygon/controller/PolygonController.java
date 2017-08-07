@@ -18,6 +18,7 @@ import rs.etf.ms130329.ballgame.polygon.view.PolygonView;
 
 public class PolygonController extends Activity {
 
+    //TODO: -> State pattern
     private enum State {
         DRAW_BALL,
         DRAW_OBSTACLES,
@@ -183,8 +184,9 @@ public class PolygonController extends Activity {
                     showInfo(getResources().getString(R.string.empty_input));
                     return;
                 }
-                polygonView.getPolygon().setName(input.getText().toString());
+                polygonView.getPolygon().setName(polygonName);
                 polygonModel.exportPolygonToFile(polygonView.getPolygon());
+                dialog.dismiss();
                 finish();
             }
         });
