@@ -43,23 +43,19 @@ public class Ball extends Circle {
         return velocity;
     }
 
-    public void accelerate(Acceleration acceleration, float dT, List<Collision> collisionList,
-                           float frictionFactor, float collisionFactor) {
+    public void accelerate(Acceleration acceleration, float dT, float frictionFactor, float collisionFactor,
+                           Collision collision) {
 
         velocity.changeDueToAcceleration(acceleration, dT, frictionFactor);
 
-        if (!collisionList.isEmpty()) {
-            for (Collision collision : collisionList) {
-                velocity.changeDueToCollision((BounceCollision) collision, collisionFactor);
-            }
+        if(collision != null) {
+            velocity.changeDueToCollision((BounceCollision) collision, collisionFactor);
         }
 
         position.verletIntegration(velocity, acceleration, dT);
 
-        if (!collisionList.isEmpty()) {
-            for (Collision collision : collisionList) {
-                position.correction((BounceCollision) collision);
-            }
+        if(collision != null) {
+            position.correction((BounceCollision) collision);
         }
 
         super.setCircleBounds(position.getPointX(), position.getPointY(), radius);

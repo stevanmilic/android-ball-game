@@ -10,7 +10,7 @@ import rs.etf.ms130329.ballgame.engine.physics.collision.HoleCollision;
  * Created by stevan on 7/27/17.
  */
 
-abstract class Hole extends Circle implements Collidable{
+abstract class Hole extends Circle implements Collidable {
 
     static final long serialVersionUID = 7L;
 
@@ -20,13 +20,15 @@ abstract class Hole extends Circle implements Collidable{
 
     protected abstract float getCollisionRadius(float ballRadius);
 
+    protected abstract HoleCollision getHoleCollision();
+
     @Override
     public void detectCollisions(List<Collision> collisionList, Ball ball) {
         float distanceToBall = point.getDistanceSquared(ball.getPosition());
         float radiusSum = radius + getCollisionRadius(ball.getRadius());
-        if(distanceToBall <= radiusSum*radiusSum) {
-            collisionList.add(new HoleCollision());
+        if (distanceToBall <= radiusSum * radiusSum) {
+            collisionList.add(getHoleCollision());
         }
-
     }
+
 }

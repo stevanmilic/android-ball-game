@@ -1,5 +1,7 @@
 package rs.etf.ms130329.ballgame.engine.objects;
 
+import android.graphics.drawable.Drawable;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,6 +23,8 @@ public class Polygon extends Drawables {
     private List<Obstacle> obstacles = new LinkedList<>();
     private List<BlackHole> blackHoles = new LinkedList<>();
     private WinningHole winningHole;
+
+    private List<Collidable> collidables = new LinkedList<>();
 
     private float frictionFactor;
     private float collisionFactor;
@@ -123,5 +127,17 @@ public class Polygon extends Drawables {
             }
         }
         return true;
+    }
+
+    public List<Collidable> getCollidablesObjects() {
+        if(collidables.isEmpty()) {
+            for (Drawable drawable : drawables) {
+                if (drawable instanceof Collidable) {
+                    collidables.add((Collidable) drawable);
+                }
+            }
+        }
+
+        return collidables;
     }
 }

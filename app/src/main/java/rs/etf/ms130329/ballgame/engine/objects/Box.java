@@ -17,8 +17,8 @@ public class Box extends Background implements Collidable{
 
     static final long serialVersionUID = 9L;
 
-    public final int HORIZONTAL_ID = 0;
-    public final int VERTICAL_ID = 1;
+    private static final int HORIZONTAL_ID = 0;
+    private static final int VERTICAL_ID = 1;
 
     public Box(int color, int width, int height) {
         super(color, width, height);

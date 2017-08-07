@@ -75,8 +75,7 @@ public class GameController extends Activity implements SensorEventListener, Obs
 
         setContentView(gameSurfaceView);
 
-        BallStateObservable ballStateObservable = BallStateObservable.getInstance();
-        ballStateObservable.addObserver(this);
+        BallStateObservable.getInstance().addObserver(this);
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -190,9 +189,10 @@ public class GameController extends Activity implements SensorEventListener, Obs
     }
 
     private void gameWonAction() {
+        gameSurfaceView.stopWorkerThread();
         mSensorManager.unregisterListener(this);
-        stopwatch.stop();
         gameSoundController.playWinningSound();
+        stopwatch.stop();
         this.runOnUiThread(new Runnable() {
             public void run() {
                 showInfo(getResources().getString(R.string.won_the_game));
@@ -202,6 +202,7 @@ public class GameController extends Activity implements SensorEventListener, Obs
     }
 
     private void gameLostAction() {
+        gameSurfaceView.stopWorkerThread();
         mSensorManager.unregisterListener(this);
         gameSoundController.playLosingSound();
         stopwatch.stop();

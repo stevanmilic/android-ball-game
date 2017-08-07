@@ -12,7 +12,7 @@ import static android.util.FloatMath.sqrt;
  * Created by stevan on 7/31/17.
  */
 
-public class BounceCollision extends Collision {
+abstract public class BounceCollision implements Collision {
 
     Vector normal;
     private float penetration;

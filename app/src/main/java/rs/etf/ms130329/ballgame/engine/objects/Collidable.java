@@ -8,6 +8,6 @@ import rs.etf.ms130329.ballgame.engine.physics.collision.Collision;
  * Created by stevan on 8/5/17.
  */
 
-interface Collidable {
+public interface Collidable {
     void detectCollisions(List<Collision> collisionList, Ball ball);
 }

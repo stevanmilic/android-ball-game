@@ -1,5 +1,8 @@
 package rs.etf.ms130329.ballgame.engine.objects;
 
+import rs.etf.ms130329.ballgame.engine.physics.collision.HoleCollision;
+import rs.etf.ms130329.ballgame.engine.physics.collision.WinningHoleCollision;
+
 /**
  * Created by stevan on 7/27/17.
  */
@@ -15,5 +18,10 @@ public class WinningHole extends Hole {
     @Override
     protected float getCollisionRadius(float ballRadius) {
         return -ballRadius;
+    }
+
+    @Override
+    protected HoleCollision getHoleCollision() {
+        return new WinningHoleCollision();
     }
 }

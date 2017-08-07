@@ -8,7 +8,7 @@ import java.util.Observable;
 
 public class BallStateObservable extends Observable {
 
-    enum BallState {
+    public enum BallState {
         IN_BLACK_HOLE,
         IN_WINNING_HOLE,
         COLLISION_BOX,
@@ -54,7 +54,7 @@ public class BallStateObservable extends Observable {
         }
     }
 
-    BallState getBallState() {
+    public BallState getBallState() {
         return ballState;
     }
 }
