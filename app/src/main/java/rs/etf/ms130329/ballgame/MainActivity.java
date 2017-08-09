@@ -16,8 +16,8 @@ import android.widget.ListView;
 
 import rs.etf.ms130329.ballgame.database.ScoreDbHelper;
 import rs.etf.ms130329.ballgame.engine.objects.Polygon;
-import rs.etf.ms130329.ballgame.game.controller.GameController;
-import rs.etf.ms130329.ballgame.polygon.controller.PolygonController;
+import rs.etf.ms130329.ballgame.game.controller.GameActivity;
+import rs.etf.ms130329.ballgame.polygon.controller.PolygonActivity;
 import rs.etf.ms130329.ballgame.polygon.model.PolygonModel;
 import rs.etf.ms130329.ballgame.settings.SettingsActivity;
 import rs.etf.ms130329.ballgame.statistics.controller.StatisticsActivity;
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Intent intent;
         switch (item.getItemId()) {
             case R.id.new_polygon:
-                intent = new Intent(this, PolygonController.class);
+                intent = new Intent(this, PolygonActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.statistics:
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ArrayAdapter<String> arrayAdapter = (ArrayAdapter<String>) parent.getAdapter();
         Polygon polygon = polygonModel.importPolygonFromFile(arrayAdapter.getItem(position));
-        Intent intent = new Intent(getApplicationContext(), GameController.class);
+        Intent intent = new Intent(getApplicationContext(), GameActivity.class);
         intent.putExtra(GAME_PARAMETER_KEY, polygon);
         startActivity(intent);
     }

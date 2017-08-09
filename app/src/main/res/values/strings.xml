@@ -38,4 +38,10 @@
     <string name="input_player_name">Enter your name</string>
     <string name="delete">Delete</string>
     <string name="delete_polygon_dialog">Delete Polygon</string>
+    <string name="draw_ball_button">Draw ball</string>
+    <string name="draw_obstacles_button">Draw obstacles</string>
+    <string name="draw_black_holes_button">Draw black holes</string>
+    <string name="draw_winning_hole_button">Draw winning hole</string>
+    <string name="save_polygon_button">Save Polygon</string>
+    <string name="toolbar_info">Choose object to draw…With Long Click you can toggle toolbar</string>s
 </resources>

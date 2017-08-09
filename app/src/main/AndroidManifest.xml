@@ -15,8 +15,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".polygon.controller.PolygonController"/>
-        <activity android:name=".game.controller.GameController" android:hardwareAccelerated="true"/>
+        <activity android:name=".polygon.controller.PolygonActivity"
+                  android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"/>
+        <activity android:name=".game.controller.GameActivity"
+                  android:hardwareAccelerated="true"/>
         <activity android:name=".statistics.controller.StatisticsActivity"/>
         <activity android:name=".settings.SettingsActivity"/>
     </application>

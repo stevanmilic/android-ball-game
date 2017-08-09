@@ -42,13 +42,13 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         return polygon.getName();
     }
 
-    public void setBallToStartingPosition() {
+    public synchronized void setBallToStartingPosition() {
         polygon.getBall().resetPosition();
         BallStateObservable.getInstance().setRunningState();
         startWorkerThread();
     }
 
-    public void update(float[] s, float dT) {
+    public synchronized void update(float[] s, float dT) {
         List<Collision> collisionList = new LinkedList<>();
 
         for (Collidable collidable : polygon.getCollidablesObjects()) {

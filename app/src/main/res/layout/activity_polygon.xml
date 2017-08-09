@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+                                       android:id="@+id/polygon_toolbar"
+                                       android:layout_width="match_parent"
+                                       android:layout_height="wrap_content"
+                                       android:elevation="4dp"
+                                       android:visibility="visible"
+                                       android:layout_alignParentEnd="true">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/draw_ball_button"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/draw_ball_button"/>
+
+            <Button
+                android:id="@+id/draw_obstacle_button"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/draw_obstacles_button"/>
+
+            <Button
+                android:id="@+id/draw_black_hole_button"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/draw_black_holes_button"/>
+
+            <Button
+                android:id="@+id/draw_winning_hole_button"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/draw_winning_hole_button"/>
+
+            <Button
+                android:id="@+id/save_polygon_button"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:text="@string/save_polygon_button"/>
+
+
+
+        </LinearLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+    <rs.etf.ms130329.ballgame.polygon.view.PolygonView
+        android:id="@+id/polygon_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

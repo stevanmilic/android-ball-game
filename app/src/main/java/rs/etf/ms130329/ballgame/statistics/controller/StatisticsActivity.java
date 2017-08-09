@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import rs.etf.ms130329.ballgame.R;
 import rs.etf.ms130329.ballgame.database.ScoreContract.ScoreEntry;
-import rs.etf.ms130329.ballgame.game.controller.GameController;
+import rs.etf.ms130329.ballgame.game.controller.GameActivity;
 import rs.etf.ms130329.ballgame.statistics.model.StatisticsModel;
 
 public class StatisticsActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
@@ -49,7 +49,7 @@ public class StatisticsActivity extends AppCompatActivity implements AdapterView
         if (extras == null) {
             setPolygonListState(this);
         } else {
-            currentPolygonName = extras.getString(GameController.STATISTICS_PARAMETER_KEY);
+            currentPolygonName = extras.getString(GameActivity.STATISTICS_PARAMETER_KEY);
             setPolygonStatisticsState(this, true);
         }
 
@@ -104,6 +104,7 @@ public class StatisticsActivity extends AppCompatActivity implements AdapterView
             Cursor cursor = (Cursor) parent.getItemAtPosition(position);
             currentPolygonName = cursor.getString(cursor.getColumnIndex(ScoreEntry.COLUMN_NAME_POLYGON_NAME));
             setPolygonStatisticsState(parent.getContext(), false);
+            invalidateOptionsMenu();
         }
     }
 

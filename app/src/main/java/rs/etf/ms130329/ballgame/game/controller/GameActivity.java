@@ -30,7 +30,7 @@ import rs.etf.ms130329.ballgame.game.model.GameModel;
 import rs.etf.ms130329.ballgame.game.view.GameSurfaceView;
 import rs.etf.ms130329.ballgame.statistics.controller.StatisticsActivity;
 
-public class GameController extends Activity implements SensorEventListener, Observer {
+public class GameActivity extends Activity implements SensorEventListener, Observer {
 
     GameModel gameModel;
     GameSurfaceView gameSurfaceView;
