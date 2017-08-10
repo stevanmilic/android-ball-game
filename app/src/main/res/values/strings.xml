@@ -21,19 +21,12 @@
     <string name="reset_polygon_statistics">Reset polygon statistics</string>
     <string name="reset_statistics">Reset complete statistics</string>
     <string name="save_score_dialog">Save Score</string>
-    <string name="ball_radius">Ball radius</string>
-    <string name="obstacle_width">Obstacle width</string>
-    <string name="obstacle_height">Obstacle height</string>
-    <string name="black_hole_radius">Black hole radius</string>
-    <string name="winning_hole_radius">Winning hole radius</string>
-    <string name="no_obstacles">No obstacles</string>
-    <string name="no_black_holes">No black holes</string>
     <string name="friction_factor">Friction factor</string>
     <string name="collision_factor">Collision factor</string>
     <string name="friction_factor_default">0.9</string>
     <string name="collision_factor_default">0.7</string>
     <string name="default_values">Reset to Default values</string>
-    <string name="empty_input">No name, Eh?</string>
+    <string name="empty_input">No input, Eh?</string>
     <string name="input_polygon_name">Enter polygon name</string>
     <string name="input_player_name">Enter your name</string>
     <string name="delete">Delete</string>
@@ -44,4 +37,14 @@
     <string name="draw_winning_hole_button">Draw winning hole</string>
     <string name="save_polygon_button">Save Polygon</string>
     <string name="toolbar_info">Choose object to draw…With Long Click you can toggle toolbar</string>s
+    <string name="input_ball_radius">Enter ball radius</string>
+    <string name="input_obstacle_width">Enter obstacle width</string>
+    <string name="input_obstacle_height">Enter obstacle height</string>
+    <string name="input_black_hole_radius">Enter black hole radius</string>
+    <string name="input_winning_hole_radius">Enter winning hole radius</string>
+    <string name="input_dimension_dialog">Set Dimension</string>
+    <string name="set">Set</string>
+    <string name="no_ball_draw">Ball isn\'t drawed</string>
+    <string name="no_winning_hole_draw">Winning hole isn\'t drawed</string>
+    <string name="one_time_draw">Only one can exist…With Long Click you can toggle toolbar</string>
 </resources>

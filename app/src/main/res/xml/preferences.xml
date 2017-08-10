@@ -2,66 +2,18 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <EditTextPreference
-        android:numeric="integer"
-        android:defaultValue="@integer/ball_radius"
-        android:key="pref_ballRadius"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="@string/ball_radius"/>
-    <EditTextPreference
-        android:numeric="integer"
-        android:defaultValue="@integer/obstacle_width"
-        android:key="pref_obstacleWidth"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="@string/obstacle_width"/>
-    <EditTextPreference
-        android:numeric="integer"
-        android:defaultValue="@integer/obstacle_height"
-        android:key="pref_obstacleHeight"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="@string/obstacle_height"/>
-    <EditTextPreference
-        android:numeric="integer"
-        android:defaultValue="@integer/black_hole_radius"
-        android:key="pref_blackHoleRadius"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="@string/black_hole_radius"/>
-    <EditTextPreference
-        android:numeric="integer"
-        android:defaultValue="@integer/winning_hole_radius"
-        android:key="pref_winningHoleRadius"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="@string/winning_hole_radius"/>
-    <EditTextPreference
-        android:numeric="integer"
-        android:defaultValue="@integer/no_obstacles"
-        android:key="pref_noObstacles"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="@string/no_obstacles"/>
-    <EditTextPreference
-        android:numeric="integer"
-        android:defaultValue="@integer/no_black_holes"
-        android:key="pref_noBlackHoles"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="@string/no_black_holes"/>
-    <EditTextPreference
-        android:numeric="decimal"
         android:defaultValue="@string/friction_factor_default"
         android:key="pref_frictionFactor"
+        android:numeric="decimal"
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="@string/friction_factor"/>
     <EditTextPreference
-        android:numeric="decimal"
         android:defaultValue="@string/collision_factor_default"
         android:key="pref_collisionFactor"
+        android:numeric="decimal"
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="@string/collision_factor"/>
+
 </PreferenceScreen>

@@ -1,8 +1,6 @@
 package rs.etf.ms130329.ballgame.polygon.model;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -14,9 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 
-import rs.etf.ms130329.ballgame.R;
 import rs.etf.ms130329.ballgame.engine.objects.Polygon;
-import rs.etf.ms130329.ballgame.settings.SettingsActivity;
 
 /**
  * Created by stevan on 7/28/17.
@@ -28,66 +24,8 @@ public class PolygonModel {
 
     private Context context;
 
-    private int ballRadius;
-    private int obstacleWidth;
-    private int obstacleHeight;
-    private int blackHoleRadius;
-    private int winningHoleRadius;
-    private int noObstacles;
-    private int noBlackHoles;
-
     public PolygonModel(Context context) {
         this.context = context;
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-
-        ballRadius = Integer.parseInt(sharedPreferences.getString(SettingsActivity.KEY_PREF_BALL_RADIUS,
-                String.valueOf(context.getResources().getInteger(R.integer.ball_radius))));
-
-        obstacleWidth = Integer.parseInt(sharedPreferences.getString(SettingsActivity.KEY_PREF_OBSTACLE_WIDTH,
-                String.valueOf(context.getResources().getInteger(R.integer.obstacle_width))));
-
-        obstacleHeight = Integer.parseInt(sharedPreferences.getString(SettingsActivity.KEY_PREF_OBSTACLE_HEIGHT,
-                String.valueOf(context.getResources().getInteger(R.integer.obstacle_height))));
-
-        blackHoleRadius = Integer.parseInt(sharedPreferences.getString(SettingsActivity.KEY_PREF_BLACK_HOLE_RADIUS,
-                String.valueOf(context.getResources().getInteger(R.integer.black_hole_radius))));
-
-        winningHoleRadius = Integer.parseInt(sharedPreferences.getString(SettingsActivity.KEY_PREF_WINNING_HOLE_RADIUS,
-                String.valueOf(context.getResources().getInteger(R.integer.winning_hole_radius))));
-
-        noObstacles = Integer.parseInt(sharedPreferences.getString(SettingsActivity.KEY_PREF_NO_OBSTACLES,
-                String.valueOf(context.getResources().getInteger(R.integer.no_obstacles))));
-
-        noBlackHoles = Integer.parseInt(sharedPreferences.getString(SettingsActivity.KEY_PREF_NO_BLACK_HOLES,
-                String.valueOf(context.getResources().getInteger(R.integer.no_black_holes))));
-    }
-
-    public int getBallRadius() {
-        return ballRadius;
-    }
-
-    public int getObstacleWidth() {
-        return obstacleWidth;
-    }
-
-    public int getObstacleHeight() {
-        return obstacleHeight;
-    }
-
-    public int getBlackHoleRadius() {
-        return blackHoleRadius;
-    }
-
-    public int getWinningHoleRadius() {
-        return winningHoleRadius;
-    }
-
-    public int getNoObstacles() {
-        return noObstacles;
-    }
-
-    public int getNoBlackHoles() {
-        return noBlackHoles;
     }
 
     public void exportPolygonToFile(Polygon polygon) {

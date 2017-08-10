@@ -110,8 +110,10 @@ public class Polygon extends Drawables {
     }
 
     public void setBox(Box box) {
-        this.box = box;
-        drawables.add(box);
+        if(this.box == null) {
+            this.box = box;
+            drawables.add(box);
+        }
     }
 
     private boolean isPositionValid(Figure newFigure) {

@@ -17,14 +17,6 @@ import rs.etf.ms130329.ballgame.R;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    public static final String KEY_PREF_BALL_RADIUS = "pref_ballRadius";
-    public static final String KEY_PREF_OBSTACLE_WIDTH = "pref_obstacleWidth";
-    public static final String KEY_PREF_OBSTACLE_HEIGHT = "pref_obstacleHeight";
-    public static final String KEY_PREF_BLACK_HOLE_RADIUS = "pref_blackHoleRadius";
-    public static final String KEY_PREF_WINNING_HOLE_RADIUS = "pref_winningHoleRadius";
-    public static final String KEY_PREF_NO_OBSTACLES = "pref_noObstacles";
-    public static final String KEY_PREF_NO_BLACK_HOLES = "pref_noBlackHoles";
-
     public static final String KEY_PREF_FRICTION_FACTOR = "pref_frictionFactor";
     public static final String KEY_PREF_COLLISION_FACTOR = "pref_collisionFactor";
 
