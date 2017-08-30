@@ -82,6 +82,7 @@ public abstract class DrawCommand implements Command {
 
         final AlertDialog dialog = builder.create();
         dialog.show();
+        dialog.setCancelable(false);
 
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override

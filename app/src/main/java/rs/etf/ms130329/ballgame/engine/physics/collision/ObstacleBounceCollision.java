@@ -39,6 +39,6 @@ public class ObstacleBounceCollision extends BounceCollision {
         if(!collisionMap.isBallGlued(obstacleId)) {
             ballState.setCollisionObstacleState();
         }
-        ballState.setRunningState();
+        ballState.setRunningState(false);
     }
 }

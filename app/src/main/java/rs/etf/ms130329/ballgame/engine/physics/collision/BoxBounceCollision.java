@@ -31,6 +31,6 @@ public class BoxBounceCollision extends BounceCollision {
         if(!collisionMap.isBallGlued(boundId)) {
             ballState.setCollisionBoxState();
         }
-        ballState.setRunningState();
+        ballState.setRunningState(false);
     }
 }

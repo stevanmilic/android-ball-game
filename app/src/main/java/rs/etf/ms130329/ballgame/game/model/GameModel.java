@@ -46,9 +46,7 @@ public class GameModel {
         values.put(ScoreEntry.COLUMN_NAME_TIME, time);
         values.put(ScoreEntry.COLUMN_NAME_PLAYER_NAME, playerName);
 
-        long rowId = database.insert(ScoreEntry.TABLE_NAME, null, values);
-
-        return rowId;
+        return database.insert(ScoreEntry.TABLE_NAME, null, values);
     }
 
 

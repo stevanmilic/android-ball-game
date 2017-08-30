@@ -24,10 +24,8 @@ public class StatisticsModel {
 
         String[] columns = {ScoreEntry._ID, ScoreEntry.COLUMN_NAME_POLYGON_NAME};
 
-        Cursor cursor = database.query(true, ScoreEntry.TABLE_NAME, columns, null, null, ScoreEntry.COLUMN_NAME_POLYGON_NAME,
+        return database.query(true, ScoreEntry.TABLE_NAME, columns, null, null, ScoreEntry.COLUMN_NAME_POLYGON_NAME,
                 null, ScoreEntry._ID + " ASC", null);
-
-        return cursor;
     }
 
     public Cursor getPolygonStatisticCursor(String polygonName) {
@@ -38,10 +36,8 @@ public class StatisticsModel {
         String whereClause = ScoreEntry.COLUMN_NAME_POLYGON_NAME + " = ?";
         String[] whereArgs = {polygonName};
 
-        Cursor cursor = database.query(ScoreEntry.TABLE_NAME, columns, whereClause, whereArgs, null, null,
+        return database.query(ScoreEntry.TABLE_NAME, columns, whereClause, whereArgs, null, null,
                 ScoreEntry.COLUMN_NAME_TIME + " ASC");
-
-        return cursor;
     }
 
     public void deleteStatistics() {

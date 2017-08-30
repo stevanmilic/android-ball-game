@@ -50,6 +50,9 @@ public class GameActivity extends Activity implements SensorEventListener, Obser
     public static final String GAME_POLYGON_PARAMETER_KEY = "game_polygon";
     public static final String GAME_STOPWATCH_PARAMETER_KEY = "game_stopwatch";
 
+    private static float ALFA = 0.1f;
+    private static LowPassFilter lowPassFilter = new LowPassFilter(ALFA);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +80,7 @@ public class GameActivity extends Activity implements SensorEventListener, Obser
 
         BallStateObservable ballStateObservable = BallStateObservable.getInstance();
         ballStateObservable.addObserver(this);
-        ballStateObservable.setRunningState();
+        ballStateObservable.setRunningState(true);
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -170,7 +173,6 @@ public class GameActivity extends Activity implements SensorEventListener, Obser
 
     public static float[] adjustAccelerationOrientation(int displayRotation, float[] eventValues) {
         float[] adjustedValues = new float[3];
-
         final int axisSwap[][] = {
                 {1, -1, 0, 1},     // ROTATION_0
                 {-1, -1, 1, 0},     // ROTATION_90
@@ -181,6 +183,8 @@ public class GameActivity extends Activity implements SensorEventListener, Obser
         adjustedValues[0] = (float) as[0] * eventValues[as[2]];
         adjustedValues[1] = (float) as[1] * eventValues[as[3]];
         adjustedValues[2] = eventValues[2];
+
+        lowPassFilter.filter(adjustedValues);
 
         return adjustedValues;
     }

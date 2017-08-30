@@ -44,7 +44,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
     public synchronized void setBallToStartingPosition() {
         polygon.getBall().resetPosition();
-        BallStateObservable.getInstance().setRunningState();
+        BallStateObservable.getInstance().setRunningState(true);
         startWorkerThread();
     }
 

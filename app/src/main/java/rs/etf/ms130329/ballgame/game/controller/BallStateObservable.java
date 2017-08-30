@@ -51,7 +51,10 @@ public class BallStateObservable extends Observable {
         notifyObservers();
     }
 
-    public void setRunningState() {
+    public void setRunningState(boolean newGame) {
+        if((ballState == BallState.IN_BLACK_HOLE || ballState == BallState.IN_WINNING_HOLE ) && !newGame) {
+            return;
+        }
         ballState = BallState.RUNNING;
     }
 
